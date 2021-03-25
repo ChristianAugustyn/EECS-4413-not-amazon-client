@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react'
+import Layout from '../layout/Layout'
 import { connect } from 'react-redux'
 import {increment, decrement} from '../../state/actions'
 
@@ -7,17 +8,19 @@ const App = ({count, increment, decrement}) => {
 
   return (
     <div className="App">
-      <h1 className='text-4xl'>notAmazon</h1>
-      <div className='my-4 mx-4'>
-        <h3 className='my-2'>Redux State</h3>
-        <button onClick={() => decrement()} className='mx-2 py-2 px-4 font-semibold rounded-lg shadow-md'>
-          decrement
-        </button>
-        {count}
-        <button onClick={() => increment()} className='mx-2 py-2 px-4 font-semibold rounded-lg shadow-md'>
-          increment
-        </button>
-      </div>
+      <Layout>
+        <h1 className='text-4xl'>notAmazon</h1>
+        <div className='my-4 mx-4'>
+          <h3 className='my-2'>Redux State</h3>
+          <button onClick={() => decrement()} className='mx-2 py-2 px-4 font-semibold rounded-lg shadow-md'>
+            decrement
+          </button>
+          {count}
+          <button onClick={() => increment()} className='mx-2 py-2 px-4 font-semibold rounded-lg shadow-md'>
+            increment
+          </button>
+        </div>
+      </Layout>
     </div>  
   );
 }
