@@ -5,7 +5,7 @@ import App from './components/app/App';
 import { throttle } from 'lodash'
 
 import { Provider } from 'react-redux'
-import { createStore, combineReducers } from 'redux'
+import { createStore } from 'redux'
 import { loadState, saveState } from './state/persist'
 
 
