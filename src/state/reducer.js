@@ -1,5 +1,8 @@
 const initState = {
-    count: 0
+    count: 0,
+    cart: [
+
+    ]
 }
 
 const reducer = (state = initState, action) => {
@@ -15,6 +18,11 @@ const reducer = (state = initState, action) => {
             return {
                 ...state, 
                 count: state.count - value
+            }
+        case 'ADD_ITEM':
+            return {
+                ...state,
+                cart: [...state.cart, value]
             }
         default:
             return state

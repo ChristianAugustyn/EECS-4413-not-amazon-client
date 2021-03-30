@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './components/app/App';
+import Cart from './components/cart/Cart'
+import Layout from './components/layout/Layout'
 import { throttle } from 'lodash'
-
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import { loadState, saveState } from './state/persist'
-
-
 import reducer from './state/reducer'
 import reportWebVitals from './reportWebVitals';
 
@@ -20,9 +21,18 @@ store.subscribe(throttle(() => {
   saveState(store.getState())
 }, 500))
 
+const routing = (
+  <Router>
+    <Layout>
+      <Route exact path='/' component={App}/>
+      <Route path='/cart' component={Cart}/>
+    </Layout>
+  </Router>
+)
+
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    {routing}
   </Provider>,
   document.getElementById('root')
 );

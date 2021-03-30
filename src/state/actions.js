@@ -12,7 +12,15 @@ const decrement = () => {
     }
 }
 
+const addToCart = item => {
+    return {
+        type: 'ADD_ITEM',
+        value: item
+    }
+}
+
 export {
     increment,
-    decrement
+    decrement,
+    addToCart
 }
