@@ -5,7 +5,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="#home">notAmazon</Navbar.Brand>
+        <Navbar.Brand href="#/">notAmazon</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">

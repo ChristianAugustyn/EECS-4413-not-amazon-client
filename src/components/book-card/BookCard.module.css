@@ -1,0 +1,7 @@
+.card_container {
+    margin: 20px 0;
+}
+
+.card_container .title {
+    height: 4rem
+}
