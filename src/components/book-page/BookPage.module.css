@@ -1,0 +1,30 @@
+.container {
+    margin: 50px 0;
+}
+
+.price {
+    font-size: 18px;
+    color: #b22a08;
+    font-weight: bold;
+}
+
+.category {
+    font-weight: bold;
+}
+
+.qty {
+    width: 150px;
+}
+
+.qty_form {
+    text-align: center !important;
+}
+
+.qty, .add_cart {
+    margin: 10px 10px 10px 0 !important;
+}
+
+.review_header {
+    text-align: center;
+    margin: 40px 0;
+}
