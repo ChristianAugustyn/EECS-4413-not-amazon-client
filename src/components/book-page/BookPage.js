@@ -24,6 +24,8 @@ const BookPage = ({ match, addToCart }) => {
 
     const [book, setBook] = useState({}); //holds the book object
 
+    const [isLoading, setIsLoading] = useState(true)
+
     const [quantity, setQuantity] = useState(1); //the quantity selector state
 
     const handleChange = (event) => {
@@ -76,6 +78,7 @@ const BookPage = ({ match, addToCart }) => {
         axios(config) //sends a GET request from the book with the specific ID
             .then((res) => {
                 setBook(res.data.book); //assigns the book object to the Book state
+                setIsLoading(false)
             })
             .catch((error) => {
                 console.log(error);
@@ -92,7 +95,7 @@ const BookPage = ({ match, addToCart }) => {
                             rounded
                         />
                     </Col>
-                    <Col>
+                    {!isLoading && <Col>
                         <h3>{book.title}</h3>
                         <p>
                             Price:{" "}
@@ -121,7 +124,7 @@ const BookPage = ({ match, addToCart }) => {
                             </Button>
                         </ButtonGroup>
                         <Button className={bps.add_cart} onClick={handleAddToCart}>Add To Cart</Button>
-                    </Col>
+                    </Col>}
                 </Row>
             </Container>
         </div>

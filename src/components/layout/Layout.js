@@ -3,10 +3,8 @@ import {
     Navbar,
     Nav,
     NavDropdown,
-    Form,
-    FormControl,
-    Button,
 } from "react-bootstrap";
+import SearchBar from '../searchbar/SearchBar'
 import axios from "axios";
 
 const Layout = ({ children }) => {
@@ -46,14 +44,7 @@ const Layout = ({ children }) => {
                         </NavDropdown>
                         <Nav.Link href="/cart">Cart</Nav.Link>
                     </Nav>
-                    <Form inline>
-                        <FormControl
-                            type="text"
-                            placeholder="Search"
-                            className="mr-sm-2"
-                        />
-                        <Button variant="outline-success">Search</Button>
-                    </Form>
+                    <SearchBar/>
                 </Navbar.Collapse>
             </Navbar>
             {children}

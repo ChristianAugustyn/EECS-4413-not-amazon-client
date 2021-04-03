@@ -14,6 +14,7 @@ import { createStore } from 'redux'
 import { loadState, saveState } from './state/persist'
 import reducer from './state/reducer'
 import reportWebVitals from './reportWebVitals';
+import SearchPage from './components/SearchPage/SearchPage';
 
 const persistedState = loadState()
 
@@ -30,6 +31,7 @@ const routing = (
       <Route path='/cart' component={Cart}/>
       <Route path='/book/:bid' component={BookPage}/>
       <Route path='/category/:category' component={CategoryPage}/>
+      <Route path='/search/:name' component={SearchPage}/>
     </Layout>
   </Router>
 )
