@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './components/app/App';
 import Cart from './components/cart/Cart'
 import Layout from './components/layout/Layout'
+import BookPage from './components/book-page/BookPage'
+import CategoryPage from './components/category-page/CategoryPage'
 import { throttle } from 'lodash'
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider } from 'react-redux'
@@ -26,6 +28,8 @@ const routing = (
     <Layout>
       <Route exact path='/' component={App}/>
       <Route path='/cart' component={Cart}/>
+      <Route path='/book/:bid' component={BookPage}/>
+      <Route path='/category/:category' component={CategoryPage}/>
     </Layout>
   </Router>
 )

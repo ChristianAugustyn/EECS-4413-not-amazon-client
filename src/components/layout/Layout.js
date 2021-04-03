@@ -1,38 +1,64 @@
-import React from "react";
-import { Navbar, Nav, NavDropdown, Form, FormControl, Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import {
+    Navbar,
+    Nav,
+    NavDropdown,
+    Form,
+    FormControl,
+    Button,
+} from "react-bootstrap";
+import axios from "axios";
 
 const Layout = ({ children }) => {
-  return (
-    <>
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="#/">notAmazon</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-            <Nav.Link href="/cart">Cart</Nav.Link>
-          </Nav>
-          <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Search</Button>
-          </Form>
-        </Navbar.Collapse>
-      </Navbar>
-      {children}
-    </>
-  );
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        var config = {
+            method: "get",
+            url:
+                "http://localhost:8080/EECS-4413-notAmazon/rest/books/categories",
+            headers: {},
+        };
+
+        axios(config)
+            .then((response) => {
+                setCategories(response.data.categories);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [categories]);
+
+    return (
+        <>
+            <Navbar bg="light" expand="lg">
+                <Navbar.Brand href="/">notAmazon</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                        <Nav.Link href="/">Home</Nav.Link>
+                        <NavDropdown title="Categories" id="basic-nav-dropdown">
+                            {categories.map((category) => (
+                                <NavDropdown.Item href={`/category/${category.toLowerCase()}`}>
+                                    {category}
+                                </NavDropdown.Item>
+                            ))}
+                        </NavDropdown>
+                        <Nav.Link href="/cart">Cart</Nav.Link>
+                    </Nav>
+                    <Form inline>
+                        <FormControl
+                            type="text"
+                            placeholder="Search"
+                            className="mr-sm-2"
+                        />
+                        <Button variant="outline-success">Search</Button>
+                    </Form>
+                </Navbar.Collapse>
+            </Navbar>
+            {children}
+        </>
+    );
 };
 
 export default Layout;

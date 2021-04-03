@@ -7,6 +7,8 @@ import BookCard from "../book-card/BookCard";
 import axios from "axios";
 
 const App = ({ count, increment, decrement }) => {
+
+  const [isLoading, setIsLoading] = useState(true);
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
@@ -19,6 +21,7 @@ const App = ({ count, increment, decrement }) => {
     axios(config)
       .then((res) => {
         setBooks(res.data.allBooks);
+        setIsLoading(false)
       })
       .catch((error) => {
         console.log(error);
@@ -32,7 +35,7 @@ const App = ({ count, increment, decrement }) => {
       <Container>
         <h1>notAmazon</h1>
         <Row>
-          {books.map((book) => (
+          {!isLoading && books.map((book) => (
             <Col lg={4}>
               <BookCard book={book} />
             </Col>
