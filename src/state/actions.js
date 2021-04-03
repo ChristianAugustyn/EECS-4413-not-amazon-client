@@ -20,7 +20,6 @@ const addToCart = (item) => {
 };
 
 const quantityAdd = (id) => {
-  console.log('im in quantity');
   return {
     type: 'QUANTITY_ADD',
     value: id
@@ -28,7 +27,6 @@ const quantityAdd = (id) => {
 };
 
 const quantitySub = (id) => {
-  console.log('im in quantity Sub');
   return {
     type: 'QUANTITY_SUB',
     value: id

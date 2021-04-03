@@ -1,5 +1,6 @@
 const initState = {
   count: 0,
+  total: 0,
   cart: [
     {
       bid: '1',
@@ -7,7 +8,8 @@ const initState = {
       price: 10.0,
       category: 'Comedy',
       quantity: 2,
-      image: 'http://covers.openlibrary.org/b/isbn/9780385533225-S.jpg'
+      image: 'http://covers.openlibrary.org/b/isbn/9780385533225-S.jpg',
+      totalCost: 0
     },
     {
       bid: '2',
@@ -15,7 +17,8 @@ const initState = {
       price: 10.0,
       category: 'Comedy',
       quantity: 1,
-      image: 'http://covers.openlibrary.org/b/isbn/9780385533225-S.jpg'
+      image: 'http://covers.openlibrary.org/b/isbn/9780385533225-S.jpg',
+      totalCost: 0
     }
 
     // {
@@ -37,7 +40,7 @@ const initState = {
 
 const reducer = (state = initState, action) => {
   const { type, value } = action;
-  console.log(type);
+  //console.log(type);
   switch (type) {
     case 'INC':
       return {
@@ -50,18 +53,19 @@ const reducer = (state = initState, action) => {
         count: state.count - value
       };
     case 'QUANTITY_ADD':
-      console.log('im reducing bitches');
+      //console.log('im reducing bitches');
       let addedItem = state.cart.find((item) => item.bid === value);
       console.log(addedItem);
       addedItem.quantity += 1;
 
       return {
         ...state,
-        cart: [...state.cart]
+        cart: [...state.cart],
+        total: state.total + addedItem.price
       };
 
     case 'QUANTITY_SUB':
-      console.log('im reducing bitches');
+      //console.log('im reducing bitches');
       let subbedItem = state.cart.find((item) => item.bid === value);
       if (subbedItem.quantity >= 1) {
         console.log(subbedItem);
@@ -70,7 +74,8 @@ const reducer = (state = initState, action) => {
       }
       return {
         ...state,
-        cart: [...state.cart]
+        cart: [...state.cart],
+        total: state.total - subbedItem.price
       };
 
     case 'ADD_ITEM':

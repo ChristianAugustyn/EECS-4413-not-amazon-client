@@ -8,9 +8,9 @@ import {
   quantityAdd,
   quantitySub
 } from '../../state/actions';
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Bold } from 'react-bootstrap';
 
-const Cart = ({ count, cart, addToCart, quantityAdd, quantitySub }) => {
+const Cart = ({ count, cart, addToCart, quantityAdd, quantitySub, total }) => {
   console.log(cart);
 
   const itemList = cart.map((item) => (
@@ -20,9 +20,9 @@ const Cart = ({ count, cart, addToCart, quantityAdd, quantitySub }) => {
       </td>
       <td>{item.title}</td>
       <td>{item.category}</td>
-      <td>{item.price}</td>
-      <td>{item.quantity}</td>
+      <td> ${(Math.round(item.price * 100) / 100).toFixed(2)}</td>
       <td>
+        {item.quantity}{' '}
         <Button variant="light" onClick={() => quantityAdd(item.bid)}>
           +
         </Button>
@@ -36,7 +36,18 @@ const Cart = ({ count, cart, addToCart, quantityAdd, quantitySub }) => {
     </tr>
   ));
 
-  const totalCost = 0;
+  const totalCost = (
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>
+        <b>Total</b>
+      </td>
+      <td>${(Math.round(total) / 100).toFixed(2)}</td>
+    </tr>
+  );
 
   return (
     <div className="cart">
@@ -52,12 +63,15 @@ const Cart = ({ count, cart, addToCart, quantityAdd, quantitySub }) => {
             <th>Category</th>
             <th>Price</th>
             <th>Quantity</th>
-            <th></th>
             <th>Total</th>
           </tr>
         </thead>
-        <tbody>{itemList}</tbody>
+        <tbody>
+          {itemList}
+          {totalCost}
+        </tbody>
       </Table>
+
       <Button>CheckOut</Button>
     </div>
   );
@@ -67,7 +81,8 @@ const mapStateToProps = (state) => {
   //takes the values from the cart
   return {
     count: state.count,
-    cart: state.cart
+    cart: state.cart,
+    total: state.total
   };
 };
 
