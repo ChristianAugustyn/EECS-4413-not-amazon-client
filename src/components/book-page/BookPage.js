@@ -11,6 +11,7 @@ import {
 import { connect } from "react-redux";
 import { increment, decrement, addToCart } from "../../state/actions";
 import bps from "./BookPage.module.css";
+import ReviewCard from "../review-card/ReviewCard";
 import axios from "axios";
 
 const BookPage = ({ match, addToCart }) => {
@@ -24,7 +25,7 @@ const BookPage = ({ match, addToCart }) => {
 
     const [book, setBook] = useState({}); //holds the book object
 
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
 
     const [quantity, setQuantity] = useState(1); //the quantity selector state
 
@@ -32,7 +33,7 @@ const BookPage = ({ match, addToCart }) => {
         //handles the qty state
         const { id, value } = event.target;
         switch (id) {
-            case "inc": 
+            case "inc":
                 setQuantity(quantity + 1);
                 break;
             case "dec":
@@ -46,18 +47,19 @@ const BookPage = ({ match, addToCart }) => {
 
     const handleAddToCart = () => {
         if (quantity === 0) {
-            alert("Error The quanity you selected is 0, please select a value greater than or equal to 1")
-            return
+            alert(
+                "Error The quanity you selected is 0, please select a value greater than or equal to 1"
+            );
+            return;
         }
 
-        prompt("hello")
+        prompt("hello");
 
         addToCart({
             ...book,
-            qty: quantity
-        })
-
-    }
+            qty: quantity,
+        });
+    };
 
     useEffect(() => {
         //used for "page side effects"
@@ -78,7 +80,7 @@ const BookPage = ({ match, addToCart }) => {
         axios(config) //sends a GET request from the book with the specific ID
             .then((res) => {
                 setBook(res.data.book); //assigns the book object to the Book state
-                setIsLoading(false)
+                setIsLoading(false);
             })
             .catch((error) => {
                 console.log(error);
@@ -95,36 +97,52 @@ const BookPage = ({ match, addToCart }) => {
                             rounded
                         />
                     </Col>
-                    {!isLoading && <Col>
-                        <h3>{book.title}</h3>
-                        <p>
-                            Price:{" "}
-                            <span className={bps.price}>
-                                {currency.format(book.price)}
-                            </span>
-                        </p>
-                        <p>
-                            Category:{" "}
-                            <span className={bps.category}>
-                                {book.category}
-                            </span>
-                        </p>
-                        <ButtonGroup className={bps.qty}>
-                            <Button id="dec" onClick={handleChange}>
-                                -
+                    {!isLoading && (
+                        <Col>
+                            <h3>{book.title}</h3>
+                            <p>
+                                Price:{" "}
+                                <span className={bps.price}>
+                                    {currency.format(book.price)}
+                                </span>
+                            </p>
+                            <p>
+                                Category:{" "}
+                                <span className={bps.category}>
+                                    {book.category}
+                                </span>
+                            </p>
+                            <ButtonGroup className={bps.qty}>
+                                <Button id="dec" onClick={handleChange}>
+                                    -
+                                </Button>
+                                <Form.Control
+                                    className={bps.qty_form}
+                                    id="qty"
+                                    value={quantity}
+                                    onChange={handleChange}
+                                />
+                                <Button id="inc" onClick={handleChange}>
+                                    +
+                                </Button>
+                            </ButtonGroup>
+                            <Button
+                                className={bps.add_cart}
+                                onClick={handleAddToCart}
+                            >
+                                Add To Cart
                             </Button>
-                            <Form.Control
-                                className={bps.qty_form}
-                                id="qty"
-                                value={quantity}
-                                onChange={handleChange}
-                            />
-                            <Button id="inc" onClick={handleChange}>
-                                +
-                            </Button>
-                        </ButtonGroup>
-                        <Button className={bps.add_cart} onClick={handleAddToCart}>Add To Cart</Button>
-                    </Col>}
+                        </Col>
+                    )}
+                </Row>
+                <Row>
+                    <Col lg={12}>
+                        <h2 className={bps.review_header}>Reviews</h2>
+                    </Col>
+                    <Col>
+                        <ReviewCard />
+                    </Col>
+                    <Col></Col>
                 </Row>
             </Container>
         </div>

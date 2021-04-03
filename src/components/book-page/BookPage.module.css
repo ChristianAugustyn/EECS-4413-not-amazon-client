@@ -23,3 +23,8 @@
 .qty, .add_cart {
     margin: 10px 10px 10px 0 !important;
 }
+
+.review_header {
+    text-align: center;
+    margin: 40px 0;
+}
