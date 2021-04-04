@@ -31,6 +31,7 @@ const SearchPage = ({ match, location }) => {
             .catch((error) => {
                 console.log(error);
             });
+            // eslint-disable-next-line
     }, [books]);
 
     return (

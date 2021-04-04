@@ -8,7 +8,7 @@ import {
   quantityAdd,
   quantitySub
 } from '../../state/actions';
-import { Table, Button, Bold } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 
 const Cart = ({ count, cart, addToCart, quantityAdd, quantitySub, total }) => {
   console.log(cart);
