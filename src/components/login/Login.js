@@ -9,13 +9,10 @@ class Login extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    let { email, password } = this.state;
-    this.props.login(email, password);
+    alert('you have logged in'); //placeholder for axios call
   };
 
   render() {
-    let { email, password } = this.state;
-
     return (
       <div className="login-form">
         <h1> Login</h1>
@@ -59,15 +56,13 @@ class Login extends React.Component {
 const mapStateToProps = (state) => {
   //takes the values from the cart
   return {
-    isLoginPending: state.isLoginPending,
-    isLoginSuccess: state.isLoginSuccess,
-    loginError: state.loginError
+    login: state.login
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (email, password) => dispatch(login(email, password))
+    //login: (email, password) => dispatch(login(email, password))
   };
 };
 
