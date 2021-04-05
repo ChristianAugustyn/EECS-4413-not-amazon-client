@@ -1,0 +1,19 @@
+.form-group {
+  width: 50%;
+  position: center;
+}
+label {
+  text-align: left;
+}
+.register-form {
+  position: center;
+}
+
+form {
+  text-align: center;
+}
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #1c8ef9 !important;
+}

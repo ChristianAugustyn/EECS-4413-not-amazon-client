@@ -1,0 +1,13 @@
+.login-form {
+  width: 50%;
+  position: center;
+  display: inline-block;
+}
+.label {
+  text-align: left;
+}
+
+body {
+  font-family: Arial;
+  text-align: center;
+}

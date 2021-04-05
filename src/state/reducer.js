@@ -1,6 +1,10 @@
 const initState = {
   count: 0,
   total: 0,
+  login: [{ email: '', password: '' }],
+  isLoginPending: false,
+  isLoginSuccess: false,
+  loginError: null,
   cart: [
     {
       bid: '1',
@@ -78,11 +82,30 @@ const reducer = (state = initState, action) => {
         total: state.total - subbedItem.price
       };
 
+    case 'LOGIN_SUCCESS':
+      return {
+        ...state,
+        isLoginSuccess: value
+      };
+
+    case 'LOGIN_ERROR':
+      return {
+        ...state,
+        isLoginPending: value
+      };
+
+    case 'LOGIN_PENDING':
+      return {
+        ...state,
+        loginError: value
+      };
+
     case 'ADD_ITEM':
       return {
         ...state,
         cart: [...state.cart, value]
       };
+
     default:
       return state;
   }
