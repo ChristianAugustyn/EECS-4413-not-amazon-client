@@ -67,9 +67,14 @@ const reducer = (state = initState, action) => {
               ...state,
               total: updateTotal(state)
           };
-        default:
-            return state;
-    }
+    case 'LOGIN':
+      return {
+        ...state,
+        login: [value] //still need to add value properly
+      };
+    default:
+      return state;
+  }
 };
 
 export default reducer;

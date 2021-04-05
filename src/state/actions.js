@@ -1,3 +1,5 @@
+import { reject } from 'lodash-es';
+
 const increment = () => {
   return {
     type: 'INC',
@@ -33,4 +35,12 @@ const quantitySub = (id) => {
   };
 };
 
-export { increment, decrement, addToCart, quantityAdd, quantitySub };
+const login = (email, password) => {
+  return {
+    type: 'LOGIN',
+    value: email,
+    pass: password
+    //not sure how to pass this
+  };
+};
+export { increment, decrement, addToCart, quantityAdd, quantitySub, login };

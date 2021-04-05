@@ -10,7 +10,7 @@ import {
 } from '../../state/actions';
 import { Table, Button } from 'react-bootstrap';
 
-const Cart = ({ count, cart, addToCart, quantityAdd, quantitySub, total }) => {
+const Cart = ({ cart, quantityAdd, quantitySub, total }) => {
 
   const itemList = cart.map((item) => (
     <tr key={item.bid}>
