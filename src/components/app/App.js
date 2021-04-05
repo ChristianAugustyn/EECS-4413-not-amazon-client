@@ -28,8 +28,6 @@ const App = ({ count, increment, decrement }) => {
       });
   }, []);
 
-  console.log(books);
-
   return (
     <div className="App">
       <Container>
@@ -57,7 +55,6 @@ const App = ({ count, increment, decrement }) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     count: state.count,
   };

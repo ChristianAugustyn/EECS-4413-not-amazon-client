@@ -11,7 +11,6 @@ import {
 import { Table, Button } from 'react-bootstrap';
 
 const Cart = ({ count, cart, addToCart, quantityAdd, quantitySub, total }) => {
-  console.log(cart);
 
   const itemList = cart.map((item) => (
     <tr key={item.bid}>

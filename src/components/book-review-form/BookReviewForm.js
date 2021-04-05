@@ -69,7 +69,7 @@ const BookReviewForm = ({ bid }) => {
               
               axios(config)
               .then((response) => {
-                console.log(JSON.stringify(response.data));
+                  //ADD SOME SORT OF SUCCESS MESSAGE
               })
               .catch((error) => {
                 console.log(error);

@@ -12,6 +12,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { increment, decrement, addToCart } from "../../state/actions";
 import bps from "./BookPage.module.css";
 import ReviewCard from "../review-card/ReviewCard";
@@ -19,6 +20,8 @@ import BookReviewForm from "../book-review-form/BookReviewForm";
 import axios from "axios";
 
 const BookPage = ({ match, addToCart }) => {
+    const history = useHistory();
+
     const currency = new Intl.NumberFormat("en-US", {
         //number formatter for the currency
         style: "currency",
@@ -61,11 +64,9 @@ const BookPage = ({ match, addToCart }) => {
             return;
         }
 
-        prompt("hello");
-
         addToCart({
             ...book,
-            qty: quantity,
+            quantity: quantity,
         });
     };
 
@@ -99,7 +100,9 @@ const BookPage = ({ match, addToCart }) => {
 
                 axios(config)
                     .then((response) => {
-                        setReviews(response.data.allReviews);
+                        if (response.status === 200) {
+                            setReviews(response.data.allReviews);
+                        }
                     })
                     .then(() => {
                         var config = {
@@ -114,140 +117,163 @@ const BookPage = ({ match, addToCart }) => {
                                 setIsLoading(false);
                             })
                             .catch((error) => {
-                                console.log(error);
+                                // console.log(error);
+                                setAvg(0);
+                                setIsLoading(false);
                             });
                     })
                     .catch((error) => {
-                        console.log(error);
+                        // console.log(error);
+                        setReviews([]);
                     });
             })
             .catch((error) => {
                 console.log(error);
+                history.push("/404");
             });
     }, [bid, reviews]);
 
     return (
         <div>
             <Container>
-                {!isLoading && (<>
-                    <Row className={bps.container}>
-                    <Col>
-                        <Image
-                            src="http://covers.openlibrary.org/b/isbn/9780385533225-L.jpg"
-                            rounded
-                        />
-                    </Col>
-                    <Col>
-                        <h3>{book.title}</h3>
-                        <p>
-                            Price:{" "}
-                            <span className={bps.price}>
-                                {currency.format(book.price)}
-                            </span>
-                        </p>
-                        <p>
-                            Category:{" "}
-                            <span className={bps.category}>
-                                {book.category}
-                            </span>
-                        </p>
-                        <ButtonGroup className={bps.qty}>
-                            <Button id="dec" onClick={handleChange}>
-                                -
-                            </Button>
-                            <Form.Control
-                                className={bps.qty_form}
-                                id="qty"
-                                value={quantity}
-                                onChange={handleChange}
-                            />
-                            <Button id="inc" onClick={handleChange}>
-                                +
-                            </Button>
-                        </ButtonGroup>
-                        <Button
-                            className={bps.add_cart}
-                            onClick={handleAddToCart}
-                        >
-                            Add To Cart
-                        </Button>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col lg={12}>
-                        <h2 className={bps.review_header}>Reviews</h2>
-                    </Col>
-                    <Col>
-                        <Row>
+                {!isLoading && (
+                    <>
+                        <Row className={bps.container}>
                             <Col>
-                                <div style={{ textAlign: "center" }}>
-                                    <h3>{avg}</h3>
-                                    <p>Average rating based on:</p>
-                                    <p>
-                                        {reviews.length}{" "}
-                                        {reviews.length > 1 ||
-                                        reviews.length < 1
-                                            ? "reviews"
-                                            : "review"}
-                                    </p>
-                                </div>
+                                <Image
+                                    src="http://covers.openlibrary.org/b/isbn/9780385533225-L.jpg"
+                                    rounded
+                                />
                             </Col>
                             <Col>
-                                {[...Array(5)].map((_, index) => {
-                                    const numOfReviews = reviews.filter(
-                                        (review) => review.rating === index + 1
-                                    ).length;
-                                    const percentage =
-                                        (numOfReviews / reviews.length) * 100;
-                                    return (
-                                        <div className={bps.review_results}>
-                                            {[...Array(5)].map((e, i) => {
-                                                if (i + 1 <= index + 1) {
-                                                    return (
-                                                        <FontAwesomeIcon
-                                                            icon={faStar}
-                                                            color="#fcba03"
-                                                        />
-                                                    );
-                                                } else {
-                                                    return (
-                                                        <FontAwesomeIcon
-                                                            icon={faStar}
-                                                        />
-                                                    );
-                                                }
-                                            })}
-                                            <ProgressBar
-                                                now={
-                                                    isNaN(percentage)
-                                                        ? 0
-                                                        : percentage
-                                                }
-                                                label={`${
-                                                    isNaN(percentage)
-                                                        ? 0
-                                                        : percentage.toFixed()
-                                                }%`}
-                                            />
+                                <h3>{book.title}</h3>
+                                <p>
+                                    Price:{" "}
+                                    <span className={bps.price}>
+                                        {currency.format(book.price)}
+                                    </span>
+                                </p>
+                                <p>
+                                    Category:{" "}
+                                    <span className={bps.category}>
+                                        {book.category}
+                                    </span>
+                                </p>
+                                <ButtonGroup className={bps.qty}>
+                                    <Button id="dec" onClick={handleChange}>
+                                        -
+                                    </Button>
+                                    <Form.Control
+                                        className={bps.qty_form}
+                                        id="qty"
+                                        value={quantity}
+                                        onChange={handleChange}
+                                    />
+                                    <Button id="inc" onClick={handleChange}>
+                                        +
+                                    </Button>
+                                </ButtonGroup>
+                                <Button
+                                    className={bps.add_cart}
+                                    onClick={handleAddToCart}
+                                >
+                                    Add To Cart
+                                </Button>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col lg={12}>
+                                <h2 className={bps.review_header}>Reviews</h2>
+                            </Col>
+                            <Col>
+                                <Row>
+                                    <Col>
+                                        <div style={{ textAlign: "center" }}>
+                                            <h3>{avg}</h3>
+                                            <p>Average rating based on:</p>
+                                            <p>
+                                                {reviews.length}{" "}
+                                                {reviews.length > 1 ||
+                                                reviews.length < 1
+                                                    ? "reviews"
+                                                    : "review"}
+                                            </p>
                                         </div>
-                                    );
-                                })}
+                                    </Col>
+                                    <Col>
+                                        {[...Array(5)].map((_, index) => {
+                                            const numOfReviews = reviews.filter(
+                                                (review) =>
+                                                    review.rating === index + 1
+                                            ).length;
+                                            const percentage =
+                                                (numOfReviews /
+                                                    reviews.length) *
+                                                100;
+                                            return (
+                                                <div
+                                                    className={
+                                                        bps.review_results
+                                                    }
+                                                >
+                                                    {[...Array(5)].map(
+                                                        (e, i) => {
+                                                            if (
+                                                                i + 1 <=
+                                                                index + 1
+                                                            ) {
+                                                                return (
+                                                                    <FontAwesomeIcon
+                                                                        icon={
+                                                                            faStar
+                                                                        }
+                                                                        color="#fcba03"
+                                                                    />
+                                                                );
+                                                            } else {
+                                                                return (
+                                                                    <FontAwesomeIcon
+                                                                        icon={
+                                                                            faStar
+                                                                        }
+                                                                    />
+                                                                );
+                                                            }
+                                                        }
+                                                    )}
+                                                    <ProgressBar
+                                                        now={
+                                                            isNaN(percentage)
+                                                                ? 0
+                                                                : percentage
+                                                        }
+                                                        label={`${
+                                                            isNaN(percentage)
+                                                                ? 0
+                                                                : percentage.toFixed()
+                                                        }%`}
+                                                    />
+                                                </div>
+                                            );
+                                        })}
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <BookReviewForm bid={bid} />
+                                    </Col>
+                                </Row>
                             </Col>
-                        </Row>
-                        <Row>
                             <Col>
-                                <BookReviewForm bid={bid} />
+                                {!isLoading &&
+                                    reviews.map((review) => (
+                                        <ReviewCard review={review} />
+                                    ))}
                             </Col>
                         </Row>
-                    </Col>
-                    <Col>
-                        {!isLoading &&
-                            reviews.map((review) => (
-                                <ReviewCard review={review} />
-                            ))}
-                    </Col>
-                </Row>)
-                </>)}
+                        )
+                    </>
+                )}
             </Container>
         </div>
     );
