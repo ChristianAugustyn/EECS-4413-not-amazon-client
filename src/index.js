@@ -12,9 +12,7 @@ import Register from './components/Register/Register';
 import { throttle } from 'lodash';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import logger from 'redux-logger';
+import { createStore } from 'redux';
 import { loadState, saveState } from './state/persist';
 import reducer from './state/reducer';
 import reportWebVitals from './reportWebVitals';
@@ -22,11 +20,7 @@ import SearchPage from './components/SearchPage/SearchPage';
 
 const persistedState = loadState();
 
-const store = createStore(
-  reducer,
-  persistedState,
-  applyMiddleware(thunk, logger)
-);
+const store = createStore(reducer, persistedState);
 
 store.subscribe(
   throttle(() => {
