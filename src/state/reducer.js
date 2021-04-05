@@ -1,41 +1,15 @@
 const initState = {
     count: 0,
     total: 0,
-    cart: [
-        {
-            bid: "1",
-            title: "World of Wonders",
-            price: 10.0,
-            category: "Comedy",
-            quantity: 2,
-            image: "http://covers.openlibrary.org/b/isbn/9780385533225-S.jpg",
-            totalCost: 0,
-        },
-        {
-            bid: "2",
-            title: "Babies in disguise",
-            price: 10.0,
-            category: "Comedy",
-            quantity: 1,
-            image: "http://covers.openlibrary.org/b/isbn/9780385533225-S.jpg",
-            totalCost: 0,
-        },
+    cart: [],
+};
 
-        // {
-        //   bid: '3',
-        //   title: 'Revenge of the Sith',
-        //   price: '10.00',
-        //   category: 'Comedy',
-        //   itemsNumber: 1
-        // },
-        // {
-        //   bid: '4',
-        //   title: 'Step-Brothers',
-        //   price: '10.00',
-        //   category: 'Comedy',
-        //   itemsNumber: 1
-        // }
-    ],
+const updateTotal = (state) => {
+    let total = 0;
+    state.cart.forEach((item) => {
+      total += item.price * item.quantity
+    });
+    return total
 };
 
 const reducer = (state = initState, action) => {
@@ -57,11 +31,11 @@ const reducer = (state = initState, action) => {
             let addedItem = state.cart.find((item) => item.bid === value);
             console.log(addedItem);
             addedItem.quantity += 1;
-
+            
             return {
                 ...state,
                 cart: [...state.cart],
-                total: state.total + addedItem.price,
+                total: updateTotal(state),
             };
 
         case "QUANTITY_SUB":
@@ -75,7 +49,7 @@ const reducer = (state = initState, action) => {
             return {
                 ...state,
                 cart: [...state.cart],
-                total: state.total - subbedItem.price,
+                total: updateTotal(state),
             };
 
         case "ADD_ITEM":
@@ -83,16 +57,18 @@ const reducer = (state = initState, action) => {
             console.log(index);
             if (index === -1) {
                 //add to cart
+                state.cart = [...state.cart, value]
                 return {
                     ...state,
-                    cart: [...state.cart, value],
+                    total: updateTotal(state)
                 };
             } else {
                 //gett item by id and increment qty
-                state.cart[index].quantity += 1
+                state.cart[index].quantity += value.quantity;
                 return {
-                  ...state
-                }
+                    ...state,
+                    total: updateTotal(state)
+                };
             }
         default:
             return state;
