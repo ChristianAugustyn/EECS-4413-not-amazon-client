@@ -44,7 +44,7 @@ const Cart = ({ count, cart, addToCart, quantityAdd, quantitySub, total }) => {
       <td>
         <b>Total</b>
       </td>
-      <td>${(Math.round(total)).toFixed(2)}</td>
+      <td>${(Math.round(total * 100) / 100).toFixed(2)}</td>
     </tr>
   );
 

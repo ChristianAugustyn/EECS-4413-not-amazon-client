@@ -40,36 +40,33 @@ const reducer = (state = initState, action) => {
 
         case "QUANTITY_SUB":
             //console.log('im reducing bitches');
-            let subbedItem = state.cart.find((item) => item.bid === value);
-            if (subbedItem.quantity >= 1) {
-                console.log(subbedItem);
-                subbedItem.quantity -= 1;
-            } else if (subbedItem.quantity === 0) {
+            const sub_index = state.cart.findIndex((item) => item.bid === value);
+
+            if (state.cart[sub_index].quantity === 1) { //if there is a quantity of 1 remaining remove it
+              state.cart = state.cart.filter(item => item.bid !== value)
+            } else { //subtract the value
+              state.cart[sub_index].quantity = state.cart[sub_index].quantity - 1
             }
+
             return {
-                ...state,
-                cart: [...state.cart],
-                total: updateTotal(state),
-            };
+              ...state,
+              total: updateTotal(state)
+            }
 
         case "ADD_ITEM":
-            let index = state.cart.findIndex((item) => item.bid === value.bid);
-            console.log(index);
-            if (index === -1) {
+            const add_index = state.cart.findIndex((item) => item.bid === value.bid);
+            if (add_index === -1) {
                 //add to cart
                 state.cart = [...state.cart, value]
-                return {
-                    ...state,
-                    total: updateTotal(state)
-                };
             } else {
                 //gett item by id and increment qty
-                state.cart[index].quantity += value.quantity;
-                return {
-                    ...state,
-                    total: updateTotal(state)
-                };
+                state.cart[add_index].quantity += value.quantity;
             }
+
+            return {
+              ...state,
+              total: updateTotal(state)
+          };
         default:
             return state;
     }
