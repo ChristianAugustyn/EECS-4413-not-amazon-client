@@ -117,13 +117,13 @@ const BookPage = ({ match, addToCart }) => {
                                 setIsLoading(false);
                             })
                             .catch((error) => {
-                                // console.log(error);
+                                console.log(error);
                                 setAvg(0);
                                 setIsLoading(false);
                             });
                     })
                     .catch((error) => {
-                        // console.log(error);
+                        console.log(error);
                         setReviews([]);
                     });
             })

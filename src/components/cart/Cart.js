@@ -1,4 +1,4 @@
-import Reac, { useState } from "react";
+import React, { useState } from "react";
 import cs from "./Cart.module.css";
 import { connect } from "react-redux";
 import {
