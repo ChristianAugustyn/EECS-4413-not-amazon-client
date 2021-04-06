@@ -1,13 +1,15 @@
-.login-form {
+.register_form {
   width: 50%;
   position: center;
-  display: inline-block;
+  display: block;
+  text-align: center;
+  margin: 0 auto;
 }
-.label {
+label {
   text-align: left;
 }
 
-body {
+/* body {
   font-family: Arial;
   text-align: center;
-}
+} */

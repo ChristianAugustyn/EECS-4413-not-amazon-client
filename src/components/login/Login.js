@@ -3,7 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { login } from '../../state/actions';
 import { Redirect } from 'react-router-dom';
-import './Login.css';
+import ls from './Login.module.css';
 
 class Login extends React.Component {
   state = { email: '', password: '', redirect: null };
@@ -18,11 +18,11 @@ class Login extends React.Component {
       return <Redirect to={this.state.redirect} />;
     }
     return (
-      <div className="login-form">
+      <div className={ls.login_form}>
         <h1> Login</h1>
         <Form onSubmit={this.onSubmit}>
           <Form.Group controlId="formBasicEmail">
-            <div className="label">
+            <div className={ls.label}>
               <Form.Label>Email address</Form.Label>
             </div>
             <Form.Control
@@ -36,7 +36,7 @@ class Login extends React.Component {
           </Form.Group>
 
           <Form.Group controlId="formBasicPassword">
-            <div className="label">
+            <div className={ls.label}>
               {' '}
               <Form.Label>Password</Form.Label>
             </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash-es';
 import { Form, Button } from 'react-bootstrap';
-import './Register.css';
+import rs from './Register.module.css';
 
 const Register = (props) => {
   const initForm = {
@@ -101,11 +101,11 @@ const Register = (props) => {
   };
 
   return (
-    <div className="register-form">
+    <div className={rs.register_form}>
       <Form onSubmit={handleSubmit}>
         <h1> Register</h1>
         <Form.Group>
-          <div className="label">
+          <div className={rs.label}>
             <Form.Label>Email address</Form.Label>
           </div>
           <Form.Control
@@ -117,7 +117,7 @@ const Register = (props) => {
         </Form.Group>
 
         <Form.Group>
-          <div className="label">
+          <div className={rs.label}>
             <Form.Label>Password</Form.Label>
           </div>
 
@@ -130,7 +130,7 @@ const Register = (props) => {
         </Form.Group>
 
         <Form.Group>
-          <div className="label">
+          <div className={rs.label}>
             <Form.Label>Billing Address</Form.Label>
           </div>
 
@@ -183,7 +183,7 @@ const Register = (props) => {
         </Form.Group>
 
         <Form.Group>
-          <div className="label">
+          <div className={rs.label}>
             <Form.Label>Shipping Address</Form.Label>
           </div>
 
