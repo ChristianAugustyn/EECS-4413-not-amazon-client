@@ -45,7 +45,6 @@ const routing = (
             <Route path="/login" component={Login} />
             <Route path="/Register" component={Register} />
             <Route path="/404" component={Page404} />
-            <Route path="/payment" component={PaymentForm} />
         </Layout>
     </Router>
 );

@@ -11,6 +11,28 @@ import {
 } from "../../state/actions";
 import ps from "./PaymentForm.module.css";
 
+const initForm = {
+    billing: {
+        street: "",
+        province: "",
+        country: "",
+        zip: "",
+    },
+    shipping: {
+        street: "",
+        province: "",
+        country: "",
+        zip: "",
+    },
+    payment: {
+        type: "",
+        name: "",
+        card: "",
+        expirationDate: "",
+        cvv: "",
+    },
+}
+
 const PaymentForm = ({ cart, total }) => {
     const currency = new Intl.NumberFormat("en-US", {
         //number formatter for the currency
@@ -18,27 +40,9 @@ const PaymentForm = ({ cart, total }) => {
         currency: "CAD",
     });
 
-    const [form, setForm] = useState({
-        billing: {
-            street: "",
-            province: "",
-            country: "",
-            zip: "",
-        },
-        shipping: {
-            street: "",
-            province: "",
-            country: "",
-            zip: "",
-        },
-        payment: {
-            type: "",
-            name: "",
-            card: "",
-            expirationDate: "",
-            cvv: "",
-        },
-    });
+    const [ checked, setChecked ] = useState(false)
+
+    const [form, setForm] = useState(initForm);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -66,7 +70,11 @@ const PaymentForm = ({ cart, total }) => {
                         first: _.capitalize(first_level[0]),
                         second: _.capitalize(second_level[0]),
                     };
+                } else {
+
                 }
+
+
             });
         });
         if (flag)
@@ -74,6 +82,23 @@ const PaymentForm = ({ cart, total }) => {
                 `Oops, looks like you didnt fill in "${issue.second}" under "${issue.first}". try again`
             );
     };
+
+    const handleCheck = () => {
+
+        if(!checked) {
+            setForm({
+                ...form,
+                shipping: form.billing
+            })
+        } else {
+            setForm({
+                ...form,
+                shipping: initForm.shipping
+            })
+        }
+
+        setChecked(!checked)
+    }
 
     return (
         <div className={ps.payment_container}>
@@ -200,6 +225,7 @@ const PaymentForm = ({ cart, total }) => {
                                 </Form.Group>
                             </Col>
                         </Form.Row>
+                        <Form.Check type='checkbox' label='billing address is the same as shipping' checked={checked} onChange={handleCheck}/>
                     </Form>
                 </Col>
             </Row>
