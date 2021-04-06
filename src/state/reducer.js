@@ -2,6 +2,9 @@ const initState = {
     count: 0,
     total: 0,
     cart: [],
+    user: {
+      token: null
+    }
 };
 
 const updateTotal = (state) => {
@@ -67,11 +70,18 @@ const reducer = (state = initState, action) => {
               ...state,
               total: updateTotal(state)
           };
-    case 'LOGIN':
+    case 'LOGIN': //adds the token into the state
       return {
         ...state,
-        login: [value] //still need to add value properly
+        user: {
+          token: value
+        } //still need to add value properly
       };
+    case 'LOGOUT': //removes the user token from the state
+      return {
+        ...state,
+        user: { token: null }
+      }
     default:
       return state;
   }

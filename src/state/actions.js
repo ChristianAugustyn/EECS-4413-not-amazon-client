@@ -35,12 +35,17 @@ const quantitySub = (id) => {
   };
 };
 
-const login = (email, password) => {
+const login = (token) => {
   return {
     type: 'LOGIN',
-    value: email,
-    pass: password
+    value: token,
     //not sure how to pass this
   };
 };
-export { increment, decrement, addToCart, quantityAdd, quantitySub, login };
+
+const logout = () => {
+  return {
+    type: 'LOGOUT'
+  }
+}
+export { increment, decrement, addToCart, quantityAdd, quantitySub, login, logout };

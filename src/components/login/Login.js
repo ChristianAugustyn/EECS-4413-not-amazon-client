@@ -3,29 +3,62 @@ import { Form, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { login } from "../../state/actions";
 import { Redirect, useHistory } from "react-router-dom";
+import axios from "axios";
 import ls from "./Login.module.css";
+import { isEmpty } from "lodash-es";
 
-const Login = () => {
-
-    const history = useHistory()
+const Login = ({login}) => {
+    const history = useHistory();
 
     const [state, setState] = useState({
         email: "",
         password: "",
-        redirect: null,
     });
 
     const handleChange = (e) => {
         const { id, value } = e.target;
         setState({
             ...state,
-            [id]: value
+            [id]: value,
         });
     };
 
     const onSubmit = (e) => {
         e.preventDefault();
-        alert(`you have logged in, ${state.email + " " + state.password}`); //placeholder for axios call
+        let flag = false;
+        let issue = "";
+        Object.entries(state).forEach((input) => {
+            if (isEmpty(input[1])) {
+                flag = true;
+                issue = input[0];
+            }
+        });
+
+        if (flag) {
+            alert(`Oops, looks like you didnt fill in "${issue}" properly`); //placeholder for axios call
+            return; //breaks out of the function
+        }
+
+        var config = {
+            method: "post",
+            url: "http://localhost:8080/EECS-4413-notAmazon/rest/auth/login",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            data: JSON.stringify({
+                username: state.email,
+                password: state.password
+            }),
+        };
+
+        axios(config)
+            .then((response) => {
+                login(response.data.token)
+                history.push('/')
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     return (
@@ -38,7 +71,7 @@ const Login = () => {
                     </div>
                     <Form.Control
                         type="email"
-                        id='email'
+                        id="email"
                         placeholder="Enter email"
                         onChange={handleChange}
                     />
@@ -55,14 +88,14 @@ const Login = () => {
 
                     <Form.Control
                         type="password"
-                        id='password'
+                        id="password"
                         placeholder="Password"
                         onChange={handleChange}
                     />
                 </Form.Group>
                 <div
                     style={{ color: "blue", cursor: "pointer" }}
-                    onClick={() => history.push('/register')}
+                    onClick={() => history.push("/register")}
                 >
                     New Customer? Register Here
                 </div>
@@ -78,13 +111,13 @@ const Login = () => {
 const mapStateToProps = (state) => {
     //takes the values from the cart
     return {
-        login: state.login,
+        user: state.user,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        //login: (email, password) => dispatch(login(email, password))
+        login: (token) => dispatch(login(token))
     };
 };
 
