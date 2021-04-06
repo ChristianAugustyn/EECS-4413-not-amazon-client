@@ -2,10 +2,11 @@ import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { login } from '../../state/actions';
+import { Redirect } from 'react-router-dom';
 import './Login.css';
 
 class Login extends React.Component {
-  state = { email: '', password: '' };
+  state = { email: '', password: '', redirect: null };
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -13,6 +14,9 @@ class Login extends React.Component {
   };
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
     return (
       <div className="login-form">
         <h1> Login</h1>
@@ -43,6 +47,12 @@ class Login extends React.Component {
               onChange={(e) => this.setState({ password: e.target.value })}
             />
           </Form.Group>
+          <div
+            style={{ color: 'blue', cursor: 'pointer' }}
+            onClick={() => this.setState({ redirect: '/Register' })}
+          >
+            New Customer? Register Here
+          </div>
 
           <Button variant="primary" type="submit">
             Submit
