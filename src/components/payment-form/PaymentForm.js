@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
+import ps from './PaymentForm.module.css'
 
 const PaymentForm = () => {
     const [form, setForm] = useState({
@@ -26,7 +27,7 @@ const PaymentForm = () => {
     });
 
     return (
-        <div>
+        <div className={ps.payment_container}>
             <Form>
                 <h3>Billing Information</h3>
                 <Form.Group>
