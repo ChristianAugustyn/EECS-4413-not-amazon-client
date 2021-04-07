@@ -34,7 +34,7 @@ const Layout = ({ children, user, logout }) => {
     return (
         <>
             <Navbar bg="light" expand="lg">
-                <Navbar.Brand href="/">notAmazon</Navbar.Brand>
+                <Navbar.Brand href="/" style={{fontFamily: "'Pacifico', cursive"}}>notAmazon</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">

@@ -38,8 +38,9 @@ const App = ({ count, increment, decrement }) => {
                     <Row>
                         <Col sm={12} lg={6}>
                             <div className='header'>
+                                <h4>Welcome to,</h4>
                                 <h1>
-                                    Welcome to notAmazon
+                                    notAmazon
                                 </h1>
                                 <p>The brick-and-mortar Mom & Pop book shop</p>
                             </div>

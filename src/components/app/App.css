@@ -31,3 +31,12 @@
   justify-content: center;
   text-align: left;
 }
+
+.header h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 70px;
+}
+
+.header h4, .header p {
+  color: gray;
+}
