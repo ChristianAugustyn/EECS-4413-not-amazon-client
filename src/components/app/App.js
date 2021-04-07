@@ -14,7 +14,7 @@ const App = ({ count, increment, decrement }) => {
   useEffect(() => {
     var config = {
       method: "get",
-      url: "http://localhost:8080/EECS-4413-notAmazon/rest/books/allbooks",
+      url: "https://eecs-4413-notamazon.mybluemix.net/rest/books/allbooks",
       headers: {},
     };
 
@@ -28,15 +28,13 @@ const App = ({ count, increment, decrement }) => {
       });
   }, []);
 
-  console.log(books);
-
   return (
     <div className="App">
       <Container>
         <h1>notAmazon</h1>
         <Row>
           {!isLoading && books.map((book) => (
-            <Col sm={6} md={4} lg={4}>
+            <Col sm={6} md={6} lg={4}>
               <BookCard book={book} />
             </Col>
           ))}
@@ -57,7 +55,6 @@ const App = ({ count, increment, decrement }) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     count: state.count,
   };

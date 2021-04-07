@@ -1,35 +1,57 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import images from "../../images";
+import {connect} from 'react-redux'
+import { addToCart } from '../../state/actions'
 import bs from "./BookCard.module.css";
 
-const BookCard = ({ book }) => {
-
+const BookCard = ({ book, addToCart }) => {
     const history = useHistory();
 
-  const currency = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "CAD",
-  });
+    const currency = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "CAD",
+    });
 
-  return (
-    <Card className={bs.card_container}>
-      <Card.Img
-        variant="top"
-        src="http://covers.openlibrary.org/b/isbn/9780385533225-L.jpg"
-      />
-      <Card.Body>
-        <Card.Title className={bs.title}>{book.title}</Card.Title>
-        <Card.Text>
-          <p>{currency.format(book.price)}</p>
-          <p>{book.category}</p>
-        </Card.Text>
-        <Button variant="primary" onClick={() => history.push(`/book/${book.bid}`)}>
-          View Book
-        </Button>
-      </Card.Body>
-    </Card>
-  );
+    return (
+        <Card className={bs.card_container}>
+            <div className={bs.card_image_container}>
+                <Card.Img
+                    variant="top"
+                    src={images[book.title]}
+                />
+            </div>
+            <Card.Body>
+                <Card.Title className={bs.title}>{book.title}</Card.Title>
+                <Card.Text>
+                    <p className={bs.price}>{currency.format(book.price)}</p>
+                    <p className={bs.category}>{book.category}</p>
+                </Card.Text>
+                <Button onClick={() => addToCart({...book, quantity: 1})}>Add to Cart</Button>
+                <Button
+                    variant="light"
+                    onClick={() => history.push(`/book/${book.bid}`)}
+                >
+                    View Book
+                </Button>
+            </Card.Body>
+        </Card>
+    );
 };
 
-export default BookCard;
+const mapStateToProps = (state) => {
+    //takes the values from the cart
+    return {
+        count: state.count,
+        cart: state.cart,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addToCart: (item) => dispatch(addToCart(item)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookCard);

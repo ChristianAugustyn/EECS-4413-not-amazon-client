@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
-import {
-    Navbar,
-    Nav,
-    NavDropdown,
-} from "react-bootstrap";
-import SearchBar from '../searchbar/SearchBar'
+import { connect } from 'react-redux'
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import SearchBar from "../searchbar/SearchBar";
+import { login, logout } from '../../state/actions'
 import axios from "axios";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, user, logout }) => {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         var config = {
             method: "get",
             url:
-                "http://localhost:8080/EECS-4413-notAmazon/rest/books/categories",
+                "https://eecs-4413-notamazon.mybluemix.net/rest/books/categories",
             headers: {},
         };
 
@@ -25,7 +23,9 @@ const Layout = ({ children }) => {
             .catch((error) => {
                 console.log(error);
             });
-    }, [categories]);
+    }, []);
+
+    console.log(!!user.token)
 
     return (
         <>
@@ -37,14 +37,21 @@ const Layout = ({ children }) => {
                         <Nav.Link href="/">Home</Nav.Link>
                         <NavDropdown title="Categories" id="basic-nav-dropdown">
                             {categories.map((category) => (
-                                <NavDropdown.Item href={`/category/${category.toLowerCase()}`}>
+                                <NavDropdown.Item
+                                    href={`/category/${category.toLowerCase()}`}
+                                >
                                     {category}
                                 </NavDropdown.Item>
                             ))}
                         </NavDropdown>
                         <Nav.Link href="/cart">Cart</Nav.Link>
                     </Nav>
-                    <SearchBar/>
+                    <Nav className="ml-auto">
+                        {
+                            !!user.token ? (<Nav.Link onClick={() => logout()}>Logout</Nav.Link>) :  (<Nav.Link href='/login'>Login</Nav.Link>)
+                        }
+                        <SearchBar />
+                    </Nav>
                 </Navbar.Collapse>
             </Navbar>
             {children}
@@ -52,4 +59,18 @@ const Layout = ({ children }) => {
     );
 };
 
-export default Layout;
+const mapStateToProps = (state) => {
+    //takes the values from the cart
+    return {
+        user: state.user,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        login: (token) => dispatch(login(token)),
+        logout: () => dispatch(logout())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

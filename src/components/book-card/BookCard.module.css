@@ -1,8 +1,39 @@
 .card_container {
     margin: 20px 0;
     text-align: center;
+    height: auto;
 }
 
 .card_container .title {
     height: 4rem;
+    font-weight: bold;
+}
+
+.card_image_container {
+    width: auto;
+    min-height: 300px;
+    max-height: 420px;
+    overflow-y: hidden;
+    background-color: lightgray;
+}
+
+.card_image_container img {
+    display: block;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.price {
+    font-size: 18px;
+    color: #b22a08;
+    font-weight: bold;
+}
+
+.category {
+    font-weight: 600;
+    color: lightslategray;
+}
+
+.card_container button {
+    margin: 0 10px !important;
 }
