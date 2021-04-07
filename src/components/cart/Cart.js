@@ -79,7 +79,12 @@ const Cart = ({ cart, quantityAdd, quantitySub, total, user}) => { //place holde
           .catch((error) => { //if the token is not authenticated then the user is promoteed a message and redirected to login
             console.log(error);
             alert("Oops, looks like you are not logged in")
-            history.push('/login')
+            history.push({
+                pathname: '/login',
+                state: {
+                    redirect: '/cart'
+                }
+            })
           });
 
     }

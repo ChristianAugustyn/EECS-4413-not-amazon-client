@@ -7,7 +7,7 @@ import { login } from "../../state/actions";
 import rs from "./Register.module.css";
 import axios from "axios";
 
-const Register = ({ login }) => {
+const Register = ({ login, location }) => {
 
     const history = useHistory()
 
@@ -132,7 +132,12 @@ const Register = ({ login }) => {
                 axios(config)
                     .then((response) => {
                         login(response.data.token);
-                        history.push("/");
+                        //if the state value inside location contains "redirect" then push the path to be that redirect, other wise make it go to the home page
+                        if (!!location.state.redirect) {
+                            history.push(location.state.redirect);
+                        } else {
+                            history.push('/')
+                        }
                     })
                     .catch((error) => {
                         alert(

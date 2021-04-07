@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux'
+import { useLocation } from 'react-router-dom';
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import SearchBar from "../searchbar/SearchBar";
 import { login, logout } from '../../state/actions'
 import axios from "axios";
 
 const Layout = ({ children, user, logout }) => {
+
+    const location = useLocation()
+
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -48,7 +52,7 @@ const Layout = ({ children, user, logout }) => {
                     </Nav>
                     <Nav className="ml-auto">
                         {
-                            !!user.token ? (<Nav.Link onClick={() => logout()}>Logout</Nav.Link>) :  (<Nav.Link href='/login'>Login</Nav.Link>)
+                            location.pathname !== '/cart' ? !!user.token ? (<Nav.Link onClick={() => logout()}>Logout</Nav.Link>) :  (<Nav.Link href='/login'>Login</Nav.Link>) : null
                         }
                         <SearchBar />
                     </Nav>
