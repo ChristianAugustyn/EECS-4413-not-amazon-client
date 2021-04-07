@@ -57,7 +57,7 @@ const Login = ({login}) => {
                 history.push('/')
             })
             .catch((error) => {
-                console.log(error);
+                alert("Oops, looks like your username or password was incorrect, please try again")
             });
     };
 
