@@ -8,7 +8,6 @@ import ls from "./Login.module.css";
 import { isEmpty } from "lodash-es";
 
 const Login = ({ login, location }) => {
-    console.log(location);
 
     const history = useHistory();
 

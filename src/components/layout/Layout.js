@@ -29,8 +29,6 @@ const Layout = ({ children, user, logout }) => {
             });
     }, []);
 
-    console.log(!!user.token)
-
     return (
         <>
             <Navbar bg="light" expand="lg">

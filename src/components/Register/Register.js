@@ -38,7 +38,6 @@ const Register = ({ login, location }) => {
             ...form,
             [name]: event.target.value,
         });
-        console.log(form);
     };
 
     const handleSubmit = (event) => {

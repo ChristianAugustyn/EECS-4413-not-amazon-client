@@ -19,7 +19,6 @@ const CategoryPage = ({ match }) => {
 
         axios(config)
             .then((response) => {
-                console.log()
                 setBooks(response.data.allBooks);
                 setIsLoading(false);
             })
