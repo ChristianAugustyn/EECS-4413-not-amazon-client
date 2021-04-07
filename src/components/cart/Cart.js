@@ -8,11 +8,16 @@ import {
     quantityAdd,
     quantitySub,
 } from "../../state/actions";
+import { useHistory } from 'react-router-dom'
 import { Table, Button } from "react-bootstrap";
 import PaymentForm from "../payment-form/PaymentForm";
+import axios from 'axios';
 
-const Cart = ({ cart, quantityAdd, quantitySub, total }) => {
-    const loggedIn = true; //place holder for actual login
+const Cart = ({ cart, quantityAdd, quantitySub, total, user}) => { //place holder for actual login
+
+    const history = useHistory()
+
+    const [loggedIn , setLoggedIn] = useState(false);
 
     const [checkout, setCheckout] = useState(false);
 
@@ -55,6 +60,29 @@ const Cart = ({ cart, quantityAdd, quantitySub, total }) => {
         </tr>
     );
 
+    const handleCheckout = () => {
+        setCheckout(true)
+
+        var config = {
+            method: 'get',
+            url: 'http://localhost:8080/EECS-4413-notAmazon/rest/auth/secret',
+            headers: { 
+              'Authorization': `Bearer ${user.token}`
+            }
+          };
+          
+          axios(config)
+          .then(function (response) {
+            setLoggedIn(true)
+          })
+          .catch(function (error) {
+            console.log(error);
+            alert("Oops, looks like you are not logged in")
+            history.push('/login')
+          });
+
+    }
+
     return (
         <>
             {checkout && loggedIn ? (
@@ -79,7 +107,7 @@ const Cart = ({ cart, quantityAdd, quantitySub, total }) => {
                         </tbody>
                     </Table>
 
-                    <Button onClick={() => setCheckout(true)}>CheckOut</Button>
+                    <Button onClick={() => handleCheckout()}>CheckOut</Button>
                 </div>
             )}
         </>
@@ -92,6 +120,7 @@ const mapStateToProps = (state) => {
         count: state.count,
         cart: state.cart,
         total: state.total,
+        user: state.user
     };
 };
 
