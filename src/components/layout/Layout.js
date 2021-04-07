@@ -12,7 +12,7 @@ const Layout = ({ children, user, logout }) => {
         var config = {
             method: "get",
             url:
-                "http://localhost:8080/EECS-4413-notAmazon/rest/books/categories",
+                "https://eecs-4413-notamazon.mybluemix.net/rest/books/categories",
             headers: {},
         };
 
