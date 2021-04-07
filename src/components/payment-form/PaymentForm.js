@@ -11,7 +11,7 @@ import {
 } from "../../state/actions";
 import ps from "./PaymentForm.module.css";
 
-const initForm = {
+const initForm = { //initialized state for the form
     billing: {
         street: "",
         province: "",
@@ -39,15 +39,15 @@ const PaymentForm = ({ cart, total }) => {
         style: "currency",
         currency: "CAD",
     });
-
+    //state that is used to is the client has selected in the shipping and billing address is the same
     const [ checked, setChecked ] = useState(false)
-
+    //form state
     const [form, setForm] = useState(initForm);
-
+    //takes the changes from the form and applies it to the state
     const handleChange = (e) => {
         const { id, value } = e.target;
 
-        const [first_level, second_level] = id.split(".");
+        const [first_level, second_level] = id.split("."); //the ids are split based a delimitter "." the first half being the first level of the json, and the right is the child
 
         setForm({
             ...form,
@@ -62,6 +62,7 @@ const PaymentForm = ({ cart, total }) => {
     const onOrder = () => {
         let flag = false;
         let issue = {};
+        //itterates over the form state and check if any of the fields are empty
         Object.entries(form).forEach((first_level) => {
             Object.entries(first_level[1]).forEach((second_level) => {
                 if (isEmpty(second_level[1])) {
@@ -77,12 +78,15 @@ const PaymentForm = ({ cart, total }) => {
 
             });
         });
-        if (flag)
+        if (flag){ //if any of the fields are empty, identify which one
             alert(
                 `Oops, looks like you didnt fill in "${issue.second}" under "${issue.first}". try again`
             );
-    };
+        }
+        //TODO: ADD AXIOS CALL FOR PAYMENT
 
+    };
+    //if the check mark is checked, the that address from the billing gets trasnfered over to the shipping
     const handleCheck = () => {
 
         if(!checked) {
@@ -97,8 +101,10 @@ const PaymentForm = ({ cart, total }) => {
             })
         }
 
-        setChecked(!checked)
+        setChecked(!checked) //the checked state is altered to be the opposite of what it was
     }
+
+
 
     return (
         <div className={ps.payment_container}>
@@ -260,6 +266,7 @@ const PaymentForm = ({ cart, total }) => {
                                 <Col>
                                     <Form.Label>Credit card number</Form.Label>
                                     <Form.Control
+                                        maxLength="16"
                                         type="text"
                                         id="payment.card"
                                         value={form.payment.card}
@@ -281,6 +288,7 @@ const PaymentForm = ({ cart, total }) => {
                                 <Col>
                                     <Form.Label>CVV</Form.Label>
                                     <Form.Control
+                                        maxLength="3"
                                         type="password"
                                         id="payment.cvv"
                                         value={form.payment.cvv}

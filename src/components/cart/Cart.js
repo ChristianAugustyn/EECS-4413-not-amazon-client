@@ -61,6 +61,7 @@ const Cart = ({ cart, quantityAdd, quantitySub, total, user}) => { //place holde
     );
 
     const handleCheckout = () => {
+        //on checkout, the button clicked state is set to true, and the users current token is passed into the REST api to be authenticated
         setCheckout(true)
 
         var config = {
@@ -72,10 +73,10 @@ const Cart = ({ cart, quantityAdd, quantitySub, total, user}) => { //place holde
           };
           
           axios(config)
-          .then(function (response) {
+          .then((response) => { //if the reponse comes back as 200, the token is then authenticated and the user has been validated as logged in
             setLoggedIn(true)
           })
-          .catch(function (error) {
+          .catch((error) => { //if the token is not authenticated then the user is promoteed a message and redirected to login
             console.log(error);
             alert("Oops, looks like you are not logged in")
             history.push('/login')
@@ -85,6 +86,7 @@ const Cart = ({ cart, quantityAdd, quantitySub, total, user}) => { //place holde
 
     return (
         <>
+        {/* if the user is logged in and the user clicks the checkout button, the payment form pops up, other wise display the cart */}
             {checkout && loggedIn ? (
                 <PaymentForm />
             ) : (
