@@ -34,7 +34,7 @@ const App = ({ count, increment, decrement }) => {
         <h1>notAmazon</h1>
         <Row>
           {!isLoading && books.map((book) => (
-            <Col sm={6} md={4} lg={4}>
+            <Col sm={6} md={6} lg={4}>
               <BookCard book={book} />
             </Col>
           ))}
