@@ -2,11 +2,14 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { increment, decrement } from "../../state/actions";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Jumbotron } from "react-bootstrap";
 import BookCard from "../book-card/BookCard";
+import {useSpring, animated} from 'react-spring'
 import axios from "axios";
 
 const App = ({ count, increment, decrement }) => {
+
+  const animation = useSpring({opacity: 1, from: {opacity: 0}})
 
   const [isLoading, setIsLoading] = useState(true);
   const [books, setBooks] = useState([]);
@@ -21,7 +24,9 @@ const App = ({ count, increment, decrement }) => {
     axios(config)
       .then((res) => {
         setBooks(res.data.allBooks);
-        setIsLoading(false)
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 200)
       })
       .catch((error) => {
         console.log(error);
@@ -30,8 +35,11 @@ const App = ({ count, increment, decrement }) => {
 
   return (
     <div className="App">
+      <Jumbotron>
+        <animated.h1 style={animation}>Welcome to notAmazon</animated.h1>
+        <p>The brick-and-mortar Mom & Pop book shop</p>
+      </Jumbotron>
       <Container>
-        <h1>notAmazon</h1>
         <Row>
           {!isLoading && books.map((book) => (
             <Col sm={6} md={6} lg={4}>

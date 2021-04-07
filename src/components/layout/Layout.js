@@ -55,6 +55,10 @@ const Layout = ({ children, user, logout }) => {
                 </Navbar.Collapse>
             </Navbar>
             {children}
+            <footer className='footer'>
+                <p> Made with ❤️ by Ajeet, Christian, James and Samuel</p>
+                <p className='copyright'>Copyright ⓒ {new Date().getFullYear()} notAmazon</p>
+            </footer>
         </>
     );
 };
