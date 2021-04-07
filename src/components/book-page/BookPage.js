@@ -14,6 +14,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { increment, decrement, addToCart } from "../../state/actions";
+import images from '../../images'
 import bps from "./BookPage.module.css";
 import ReviewCard from "../review-card/ReviewCard";
 import BookReviewForm from "../book-review-form/BookReviewForm";
@@ -140,8 +141,8 @@ const BookPage = ({ match, addToCart }) => {
                     <>
                         <Row className={bps.container}>
                             <Col>
-                                <Image
-                                    src="http://covers.openlibrary.org/b/isbn/9780385533225-L.jpg"
+                                <Image style={{width: '80%'}}
+                                    src={images[book.title]}
                                     rounded
                                 />
                             </Col>
