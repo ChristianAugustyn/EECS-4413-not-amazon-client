@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Form } from 'react-bootstrap';
+import { Table, Form, Spinner } from 'react-bootstrap';
 import ar from './Analytics.module.css';
 import axios from 'axios';
 import { connect } from 'react-redux';
@@ -7,6 +7,12 @@ import { connect } from 'react-redux';
 const Analytics = () => {
   const [state, setState] = useState({
     dateRange: ''
+  });
+
+  const [isLoading, setisLoading] = useState({
+    topTenBook: true,
+    numOfBooksSold: true,
+    anonReport: true
   });
   const [books, setBooks] = useState([]);
   const [userSpentBooks, setuserSpentBooks] = useState([]);
@@ -26,6 +32,7 @@ const Analytics = () => {
         console.log(JSON.stringify(response.data));
         setBooks(response.data.topTenBooks.reverse());
         console.log(books);
+        setisLoading({ topTenBook: false });
       })
       .catch(function (error) {
         console.log(error);
@@ -41,6 +48,7 @@ const Analytics = () => {
       .then(function (response) {
         console.log(JSON.stringify(response.data));
         setuserSpentBooks(response.data.userSpentZip);
+        setisLoading({ anonReport: false });
       })
       .catch(function (error) {
         console.log(error);
@@ -118,7 +126,21 @@ const Analytics = () => {
             <th>Book Titles</th>
           </tr>
         </thead>
-        <tbody>{topTenBooksList}</tbody>
+        <tbody>
+          {!isLoading.topTenBook ? (
+            topTenBooksList
+          ) : (
+            <tr>
+              <td colSpan="2">
+                <Spinner animation="border" role="status">
+                  <span colSpan="5" className="sr-only">
+                    Loading...
+                  </span>
+                </Spinner>
+              </td>
+            </tr>
+          )}
+        </tbody>
       </Table>
       <br />
       <h2> User Buying Statistic</h2>
@@ -130,7 +152,21 @@ const Analytics = () => {
             <th>Amount Spend</th>
           </tr>
         </thead>
-        <tbody>{anonReport}</tbody>
+        <tbody>
+          {!isLoading.anonReport ? (
+            anonReport
+          ) : (
+            <tr>
+              <td colSpan="3">
+                <Spinner animation="border" role="status">
+                  <span colSpan="5" className="sr-only">
+                    Loading...
+                  </span>
+                </Spinner>
+              </td>
+            </tr>
+          )}
+        </tbody>
       </Table>
     </div>
   );
