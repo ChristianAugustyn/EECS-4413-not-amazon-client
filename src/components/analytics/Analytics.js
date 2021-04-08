@@ -4,6 +4,21 @@ import ar from './Analytics.module.css';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
+
 const Analytics = () => {
   const [state, setState] = useState({
     dateRange: ''
@@ -14,6 +29,8 @@ const Analytics = () => {
     numOfBooksSold: true,
     anonReport: true
   });
+
+  const [numBooks, setnumBooks] = useState([]);
   const [books, setBooks] = useState([]);
   const [userSpentBooks, setuserSpentBooks] = useState([]);
 
@@ -54,10 +71,24 @@ const Analytics = () => {
         console.log(error);
       });
 
-    // empty dependency array means this effect will only run once (like componentDidMount in classes)
+    var config = {
+      method: 'get',
+      url: 'http://localhost:8080/EECS-4413-notAmazon/rest/admin/bookssold',
+      headers: {},
+      data: JSON.stringify({ month: state.dateRange, year: 2021 })
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        setnumBooks(response.data.booksSold);
+        setisLoading({ numOfBooksSold: false });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }, []);
 
-  // topTenBooks.map((book) =>
   const topTenBooksList = books.slice(0, 10).map((book) => (
     //generate books w/ axio call
     <tr>
@@ -66,15 +97,13 @@ const Analytics = () => {
     </tr>
   ));
 
-  // Update the document title using the browser API    document.title = `You clicked ${c
-
-  const numBooksSold = (
+  const numBooksSold = numBooks.map((book) => (
     //generate books w/ axio call
     <tr>
-      <td>1</td>
-      <td> January</td>
+      <td>{book.title}</td>
+      <td>{book.count}</td>
     </tr>
-  );
+  ));
 
   const anonReport = userSpentBooks.slice(0, 10).map((USBook) => (
     //generate statistic w/ axio call
@@ -91,6 +120,8 @@ const Analytics = () => {
       ...state,
       [name]: value
     });
+    console.log(name, value);
+    // console.log(state.dateRange);
   };
 
   return (
@@ -104,19 +135,47 @@ const Analytics = () => {
         onChange={handleChange}
       >
         <option>Select a Month</option>
-        <option> January</option>
-        <option> Feburary</option>
+        <option value="1"> January 2021</option>
+        <option value="2"> Feburary 2021</option>
+        <option value="3"> March 2021</option>
+        <option value="4"> April 2021</option>
+        <option value="5"> May 2021</option>
+        <option value="6"> June 2021</option>
+        <option value="7"> July 2021</option>
+        <option value="8"> August 2021</option>
+        <option value="9"> September 2021</option>
+        <option value="10"> October 2021</option>
+        <option value="11"> November 2021</option>
+        <option value="12"> December 2021</option>
       </Form.Control>
       <br />
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th># of Books Sold</th>
-            <th>Month</th>
+            <th colSpan="3">{months[state.dateRange - 1]}</th>
+          </tr>
+          <tr>
+            <th>Title</th>
+            <th>Number of Books Sold</th>
           </tr>
         </thead>
-        <tbody>{numBooksSold}</tbody>
+        <tbody>
+          {!isLoading.numBooksSold ? (
+            numBooksSold
+          ) : (
+            <tr>
+              <td colSpan="2">
+                <Spinner animation="border" role="status">
+                  <span colSpan="5" className="sr-only">
+                    Loading...
+                  </span>
+                </Spinner>
+              </td>
+            </tr>
+          )}
+        </tbody>
       </Table>
+
       <br />
       <h2> Top 10 Books Sold</h2>
       <Table striped bordered hover>
@@ -142,6 +201,7 @@ const Analytics = () => {
           )}
         </tbody>
       </Table>
+
       <br />
       <h2> User Buying Statistic</h2>
       <Table striped bordered hover>
