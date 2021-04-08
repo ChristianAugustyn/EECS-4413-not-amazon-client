@@ -9,7 +9,8 @@ const AddToast = ({book, setShow, show}) => {
             top: 0,
             right: 0,
             margin: '20px',
-            zIndex: 10
+            zIndex: 10,
+            backgroundColor: 'hsla(208.6, 100%, 87.3%, 0.85)'
           }}>
           <Toast.Header>
             <strong className="mr-auto">Added to Cart</strong>
