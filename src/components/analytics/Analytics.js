@@ -47,7 +47,7 @@ const Analytics = () => {
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
-        setBooks(response.data.topTenBooks.reverse());
+        setBooks(response.data.topTenBooks);
         console.log(books);
         setisLoading({ topTenBook: false });
       })
@@ -70,29 +70,12 @@ const Analytics = () => {
       .catch(function (error) {
         console.log(error);
       });
-
-    var config = {
-      method: 'get',
-      url: 'http://localhost:8080/EECS-4413-notAmazon/rest/admin/bookssold',
-      headers: {},
-      data: JSON.stringify({ month: state.dateRange, year: 2021 })
-    };
-
-    axios(config)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
-        setnumBooks(response.data.booksSold);
-        setisLoading({ numOfBooksSold: false });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
   }, []);
 
-  const topTenBooksList = books.slice(0, 10).map((book) => (
+  const topTenBooksList = books.slice(0, 10).map((book, i) => (
     //generate books w/ axio call
     <tr>
-      <td>{book.count}</td>
+      <td>{i + 1}</td>
       <td>{book.title}</td>
     </tr>
   ));
@@ -105,7 +88,7 @@ const Analytics = () => {
     </tr>
   ));
 
-  const anonReport = userSpentBooks.slice(0, 10).map((USBook) => (
+  const anonReport = userSpentBooks.slice(0, 20).map((USBook) => (
     //generate statistic w/ axio call
     <tr>
       <td>{USBook.userid}</td>
@@ -114,14 +97,32 @@ const Analytics = () => {
     </tr>
   ));
 
-  const handleChange = (e) => {
+  const handleBooksSoldChange = (e) => {
     const { name, value } = e.target;
     setState({
-      ...state,
       [name]: value
     });
-    console.log(name, value);
-    // console.log(state.dateRange);
+
+    var config = {
+      method: 'post',
+      url: 'http://localhost:8080/EECS-4413-notAmazon/rest/admin/bookssold',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify({ year: 2021, month: value })
+    };
+    console.log(value);
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        setnumBooks(response.data.booksSold);
+
+        setisLoading({ numOfBooksSold: false });
+        //console.log(isLoading.numOfBooksSold);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
@@ -132,9 +133,9 @@ const Analytics = () => {
         as="select"
         placeholder="Select a Month"
         name="dateRange"
-        onChange={handleChange}
+        onChange={handleBooksSoldChange}
       >
-        <option>Select a Month</option>
+        <option value="0">Select a Month</option>
         <option value="1"> January 2021</option>
         <option value="2"> Feburary 2021</option>
         <option value="3"> March 2021</option>
@@ -149,32 +150,39 @@ const Analytics = () => {
         <option value="12"> December 2021</option>
       </Form.Control>
       <br />
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th colSpan="3">{months[state.dateRange - 1]}</th>
-          </tr>
-          <tr>
-            <th>Title</th>
-            <th>Number of Books Sold</th>
-          </tr>
-        </thead>
-        <tbody>
-          {!isLoading.numBooksSold ? (
-            numBooksSold
-          ) : (
+
+      <div style={{ overflowY: 'scroll', height: '200px' }}>
+        <Table striped bordered hover>
+          <thead>
             <tr>
-              <td colSpan="2">
-                <Spinner animation="border" role="status">
-                  <span colSpan="5" className="sr-only">
-                    Loading...
-                  </span>
-                </Spinner>
-              </td>
+              <th colSpan="3">
+                {state.dateRange > 0
+                  ? months[state.dateRange - 1]
+                  : 'Select a Month'}
+              </th>
             </tr>
-          )}
-        </tbody>
-      </Table>
+            <tr>
+              <th>Title</th>
+              <th>Number of Books Sold</th>
+            </tr>
+          </thead>
+          <tbody>
+            {!isLoading.numBooksSold ? (
+              numBooksSold
+            ) : (
+              <tr>
+                <td colSpan="2">
+                  <Spinner animation="border" role="status">
+                    <span colSpan="5" className="sr-only">
+                      Loading...
+                    </span>
+                  </Spinner>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      </div>
 
       <br />
       <h2> Top 10 Books Sold</h2>
