@@ -24,6 +24,19 @@ const Login = ({ login, location }) => {
         });
     };
 
+    const registerRedirect = () => {
+        console.log(!!location.state)
+        if (!!location.state && !!location.state.redirect) {
+            //if there exists a KV pair called redirect inside state then use it as the path
+            history.push({
+                pathname: "/register",
+                state: { redirect: location.state.redirect },
+            });
+        } else {
+            history.push("/register");
+        }
+    }
+
     const onSubmit = (e) => {
         e.preventDefault();
         let flag = false;
@@ -42,7 +55,7 @@ const Login = ({ login, location }) => {
 
         var config = {
             method: "post",
-            url: "https://eecs-4413-notamazon.mybluemix.net/rest/auth/login",
+            url: "http://localhost:8080/EECS-4413-notAmazon/rest/auth/login",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -55,8 +68,10 @@ const Login = ({ login, location }) => {
         axios(config)
             .then((response) => {
                 login(response.data.token);
-                if (!!location.state.redirect) {
+                console.log(!!location.state.redirect)
+                if (!!location.state && !!location.state.redirect) {
                     //if there exists a KV pair called redirect inside state then use it as the path
+                    console.log(location.state.redirect)
                     history.push(location.state.redirect);
                 } else {
                     history.push("/");
@@ -103,17 +118,7 @@ const Login = ({ login, location }) => {
                 </Form.Group>
                 <div
                     style={{ color: "blue", cursor: "pointer" }}
-                    onClick={() => {
-                        if (!!location.state.redirect) {
-                            //if there exists a KV pair called redirect inside state then use it as the path
-                            history.push({
-                                pathname: "/register",
-                                state: { redirect: location.state.redirect },
-                            });
-                        } else {
-                            history.push("/register");
-                        }
-                    }}
+                    onClick={() => registerRedirect()}
                 >
                     New Customer? Register Here
                 </div>

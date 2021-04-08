@@ -2,11 +2,18 @@
   text-align: center;
 }
 
+.content {
+  padding-bottom: 170px;
+}
+
 .footer {
   background-color: #F8F9FA;
   text-align: center;
   padding-top: 50px;
   padding-bottom: 10px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 
 }
 

@@ -57,7 +57,7 @@ const BookReviewForm = ({ bid }) => {
             setForm(initForm)
             var config = {
                 method: 'post',
-                url: 'https://eecs-4413-notamazon.mybluemix.net/rest/reviews/addReview',
+                url: 'http://localhost:8080/EECS-4413-notAmazon/rest/reviews/addReview',
                 headers: { 
                   'Content-Type': 'application/json'
                 },

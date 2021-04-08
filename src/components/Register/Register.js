@@ -106,7 +106,7 @@ const Register = ({ login, location }) => {
 
         var config = {
             method: "post",
-            url: "https://eecs-4413-notamazon.mybluemix.net/rest/auth/register",
+            url: "http://localhost:8080/EECS-4413-notAmazon/rest/auth/register",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -118,7 +118,7 @@ const Register = ({ login, location }) => {
                 var config = {
                     method: "post",
                     url:
-                        "https://eecs-4413-notamazon.mybluemix.net/rest/auth/login",
+                        "http://localhost:8080/EECS-4413-notAmazon/rest/auth/login",
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -132,7 +132,7 @@ const Register = ({ login, location }) => {
                     .then((response) => {
                         login(response.data.token);
                         //if the state value inside location contains "redirect" then push the path to be that redirect, other wise make it go to the home page
-                        if (!!location.state.redirect) {
+                        if (!!location.state && !!location.state.redirect) {
                             history.push(location.state.redirect);
                         } else {
                             history.push('/')

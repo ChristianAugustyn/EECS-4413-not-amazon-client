@@ -80,7 +80,7 @@ const BookPage = ({ match, addToCart }) => {
 
         const config = {
             method: "post",
-            url: "https://eecs-4413-notamazon.mybluemix.net/rest/books/getbook",
+            url: "http://localhost:8080/EECS-4413-notAmazon/rest/books/getbook",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -95,7 +95,7 @@ const BookPage = ({ match, addToCart }) => {
             .then(() => {
                 var config = {
                     method: "get",
-                    url: `https://eecs-4413-notamazon.mybluemix.net/rest/reviews/reviewByBookId?bookId=${bid}`,
+                    url: `http://localhost:8080/EECS-4413-notAmazon/rest/reviews/reviewByBookId?bookId=${bid}`,
                     headers: {},
                 };
 
@@ -108,7 +108,7 @@ const BookPage = ({ match, addToCart }) => {
                     .then(() => {
                         var config = {
                             method: "get",
-                            url: `https://eecs-4413-notamazon.mybluemix.net/rest/reviews/averageRatingByBookId?bookId=${bid}`,
+                            url: `http://localhost:8080/EECS-4413-notAmazon/rest/reviews/averageRatingByBookId?bookId=${bid}`,
                             headers: {},
                         };
 
@@ -140,13 +140,13 @@ const BookPage = ({ match, addToCart }) => {
                 {!isLoading && (
                     <>
                         <Row className={bps.container}>
-                            <Col>
+                            <Col sm={12} md={6} lg={6}>
                                 <Image style={{width: '80%'}}
                                     src={images[book.title]}
                                     rounded
                                 />
                             </Col>
-                            <Col>
+                            <Col sm={12} md={6} lg={6}>
                                 <h3>{book.title}</h3>
                                 <p>
                                     Price:{" "}
@@ -183,14 +183,14 @@ const BookPage = ({ match, addToCart }) => {
                             </Col>
                         </Row>
                         <Row>
-                            <Col lg={12}>
+                            <Col sm={12}>
                                 <h2 className={bps.review_header}>Reviews</h2>
                             </Col>
-                            <Col>
+                            <Col sm={12} md={6} lg={6}>
                                 <Row>
                                     <Col>
                                         <div style={{ textAlign: "center" }}>
-                                            <h3>{avg}</h3>
+                                            <h3>{avg <= 0 ? 0 : avg}</h3>
                                             <p>Average rating based on:</p>
                                             <p>
                                                 {reviews.length}{" "}
@@ -265,14 +265,13 @@ const BookPage = ({ match, addToCart }) => {
                                     </Col>
                                 </Row>
                             </Col>
-                            <Col>
+                            <Col sm={12} md={6} lg={6}>
                                 {!isLoading &&
                                     reviews.map((review) => (
                                         <ReviewCard review={review} />
                                     ))}
                             </Col>
                         </Row>
-                        )
                     </>
                 )}
             </Container>

@@ -16,7 +16,7 @@ const Layout = ({ children, user, logout }) => {
         var config = {
             method: "get",
             url:
-                "https://eecs-4413-notamazon.mybluemix.net/rest/books/categories",
+                "http://localhost:8080/EECS-4413-notAmazon/rest/books/categories",
             headers: {},
         };
 
@@ -56,7 +56,9 @@ const Layout = ({ children, user, logout }) => {
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-            {children}
+            <div className='content'>
+                {children}
+            </div>
             <footer className='footer'>
                 <p> Made with ❤️ by Ajeet, Christian, James and Samuel</p>
                 <p className='copyright'>Copyright ⓒ {new Date().getFullYear()} notAmazon</p>
