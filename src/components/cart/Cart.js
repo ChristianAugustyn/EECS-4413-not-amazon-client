@@ -24,7 +24,7 @@ const Cart = ({ cart, quantityAdd, quantitySub, total, user}) => { //place holde
     const itemList = cart.map((item) => (
         <tr key={item.bid}>
             <td>
-                <img alt="book" src={item.image}></img>
+                <img alt="book" src={item.cover.replace("-L.jpg", "-S.jpg")}></img>
             </td>
             <td>{item.title}</td>
             <td>{item.category}</td>

@@ -22,7 +22,7 @@ const BookCard = ({ book, addToCart, setShow }) => {
             <AddToast book={book} setShow={setShowToast} show={showToast} />
             <Card className={bs.card_container}>
                 <div className={bs.card_image_container}>
-                    <Card.Img variant="top" src={images[book.title]} />
+                    <Card.Img variant="top" src={book.cover} />
                 </div>
                 <Card.Body>
                     <Card.Title className={bs.title}>{book.title}</Card.Title>

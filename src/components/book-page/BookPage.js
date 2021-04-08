@@ -142,7 +142,7 @@ const BookPage = ({ match, addToCart }) => {
                         <Row className={bps.container}>
                             <Col sm={12} md={6} lg={6}>
                                 <Image style={{width: '80%'}}
-                                    src={images[book.title]}
+                                    src={book.cover}
                                     rounded
                                 />
                             </Col>
