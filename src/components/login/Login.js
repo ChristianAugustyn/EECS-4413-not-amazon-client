@@ -68,7 +68,6 @@ const Login = ({ login, location }) => {
         axios(config)
             .then((response) => {
                 login(response.data.token);
-                console.log(!!location.state.redirect)
                 if (!!location.state && !!location.state.redirect) {
                     //if there exists a KV pair called redirect inside state then use it as the path
                     console.log(location.state.redirect)
@@ -78,6 +77,7 @@ const Login = ({ login, location }) => {
                 }
             })
             .catch((error) => {
+                console.log(error)
                 alert(
                     "Oops, looks like your username or password was incorrect, please try again"
                 );
