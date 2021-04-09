@@ -14,7 +14,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { increment, decrement, addToCart } from "../../state/actions";
-import images from '../../images'
+import AddToast from '../add-toast/AddToast'
 import bps from "./BookPage.module.css";
 import ReviewCard from "../review-card/ReviewCard";
 import BookReviewForm from "../book-review-form/BookReviewForm";
@@ -28,6 +28,8 @@ const BookPage = ({ match, addToCart }) => {
         style: "currency",
         currency: "CAD",
     });
+
+    const [showToast, setShowToast] = useState(false);
 
     const { bid } = match.params; //gets the bid from the url
 
@@ -136,6 +138,7 @@ const BookPage = ({ match, addToCart }) => {
 
     return (
         <div>
+            <AddToast book={book} setShow={setShowToast} show={showToast} />
             <Container>
                 {!isLoading && (
                     <>

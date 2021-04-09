@@ -35,10 +35,10 @@ const quantitySub = (id) => {
   };
 };
 
-const login = (token) => {
+const login = (obj) => {
   return {
     type: 'LOGIN',
-    value: token,
+    value: obj,
     //not sure how to pass this
   };
 };

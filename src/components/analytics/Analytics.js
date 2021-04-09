@@ -3,6 +3,7 @@ import { Table, Form, Spinner } from 'react-bootstrap';
 import ar from './Analytics.module.css';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom'
 
 const months = [
   'January',
@@ -19,7 +20,10 @@ const months = [
   'December'
 ];
 
-const Analytics = () => {
+const Analytics = ({ user, location }) => {
+
+  const history = useHistory();
+
   const [state, setState] = useState({
     dateRange: ''
   });
@@ -33,6 +37,10 @@ const Analytics = () => {
   const [numBooks, setnumBooks] = useState([]);
   const [books, setBooks] = useState([]);
   const [userSpentBooks, setuserSpentBooks] = useState([]);
+
+  if (user.role !== 'admin') {
+    history.replace('/')
+  }
 
   useEffect(() => {
     // GET request using fetch inside useEffect React hook
@@ -241,11 +249,13 @@ const Analytics = () => {
 };
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    user: state.user
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default Analytics;
+export default connect(mapStateToProps, mapDispatchToProps)(Analytics);

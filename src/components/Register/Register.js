@@ -130,7 +130,7 @@ const Register = ({ login, location }) => {
 
                 axios(config)
                     .then((response) => {
-                        login(response.data.token);
+                        login(response.data);
                         //if the state value inside location contains "redirect" then push the path to be that redirect, other wise make it go to the home page
                         if (!!location.state && !!location.state.redirect) {
                             history.push(location.state.redirect);

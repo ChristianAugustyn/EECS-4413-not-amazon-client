@@ -3,7 +3,8 @@ const initState = {
     total: 0,
     cart: [],
     user: {
-      token: null
+      token: null,
+      role: null
     }
 };
 
@@ -74,13 +75,14 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         user: {
-          token: value
+          token: value.token,
+          role: value.role
         } //still need to add value properly
       };
     case 'LOGOUT': //removes the user token from the state
       return {
         ...state,
-        user: { token: null }
+        user: { token: null, role: null }
       }
       case 'CLEAR_CART':
         return {

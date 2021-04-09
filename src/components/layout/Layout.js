@@ -11,6 +11,8 @@ const Layout = ({ children, user, logout, cart }) => {
 
     const [categories, setCategories] = useState([]);
 
+    console.log(user.role)
+
     useEffect(() => {
         var config = {
             method: "get",
@@ -56,6 +58,11 @@ const Layout = ({ children, user, logout, cart }) => {
                                 <Badge variant="primary">{cart.length}</Badge>
                             ) : null}
                         </Nav.Link>
+                        {
+                            user.role === 'admin' ? (
+                                <Nav.Link href='/analytics'>Analytics</Nav.Link>
+                            ): null
+                        }
                     </Nav>
                     <Nav className="ml-auto">
                         {location.pathname !== "/cart" ? (
