@@ -9,6 +9,7 @@ import {
     addToCart,
     quantityAdd,
     quantitySub,
+    clearCart
 } from "../../state/actions";
 import axios from "axios";
 import { mapFromInfo, mapToInfo } from "./mapInfo";
@@ -39,7 +40,7 @@ const initForm = {
     },
 };
 
-const PaymentForm = ({ cart, total, user }) => {
+const PaymentForm = ({ cart, total, user, clearCart }) => {
     const history = useHistory()
 
     const currency = new Intl.NumberFormat("en-US", {
@@ -134,12 +135,13 @@ const PaymentForm = ({ cart, total, user }) => {
             .then((res) => {
                 console.log(res); //SUCCESS
                 setOrderApproved(true)
+                clearCart()
                 setTimeout(() => history.replace('/'), 3000)
             })
             .catch((err) => {
                 console.log(err); //PAYMENT DIDNT WORK
                 setOrderApproved(false)
-                setTimeout(() => history.replace('/'), 3000)
+                setTimeout(() => history.replace('/cart'), 3000)
             });
     };
     //if the check mark is checked, the that address from the billing gets trasnfered over to the shipping
@@ -498,6 +500,7 @@ const mapDispatchToProps = (dispatch) => {
         addToCart: (item) => dispatch(addToCart(item)),
         quantityAdd: (id) => dispatch(quantityAdd(id)),
         quantitySub: (id) => dispatch(quantitySub(id)),
+        clearCart: () => dispatch(clearCart())
     };
 };
 

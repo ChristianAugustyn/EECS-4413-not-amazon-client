@@ -82,6 +82,11 @@ const reducer = (state = initState, action) => {
         ...state,
         user: { token: null }
       }
+      case 'CLEAR_CART':
+        return {
+          ...state,
+          cart: []
+        }
     default:
       return state;
   }
