@@ -59,7 +59,7 @@ const PaymentForm = ({ cart, total, user, clearCart }) => {
         //get the clients shipping and billing info one form load
         axios({
             method: "post",
-            url: "http://localhost:8080/EECS-4413-notAmazon/rest/order/getinfo",
+            url: "https://eecs-4413-notamazon.mybluemix.net/rest/order/getinfo",
             headers: {
                 Authorization: `Bearer ${user.token}`,
                 "Content-Type": "application/json",
@@ -125,7 +125,7 @@ const PaymentForm = ({ cart, total, user, clearCart }) => {
         axios({
             method: "post",
             url:
-                "http://localhost:8080/EECS-4413-notAmazon/rest/order/checkout",
+                "https://eecs-4413-notamazon.mybluemix.net/rest/order/checkout",
             headers: {
                 Authorization: `Bearer ${user.token}`,
                 "Content-Type": "application/json",

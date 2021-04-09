@@ -16,7 +16,7 @@ const App = ({ count, increment, decrement }) => {
         var config = {
             method: "get",
             url:
-                "http://localhost:8080/EECS-4413-notAmazon/rest/books/allbooks",
+                "https://eecs-4413-notamazon.mybluemix.net/rest/books/allbooks",
             headers: {},
         };
 

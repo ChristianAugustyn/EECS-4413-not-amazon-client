@@ -66,7 +66,7 @@ const Cart = ({ cart, quantityAdd, quantitySub, total, user}) => { //place holde
 
         var config = {
             method: 'get',
-            url: 'http://localhost:8080/EECS-4413-notAmazon/rest/auth/secret',
+            url: 'https://eecs-4413-notamazon.mybluemix.net/rest/auth/secret',
             headers: { 
               'Authorization': `Bearer ${user.token}`
             }

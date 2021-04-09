@@ -55,7 +55,7 @@ const Login = ({ login, location }) => {
 
         var config = {
             method: "post",
-            url: "http://localhost:8080/EECS-4413-notAmazon/rest/auth/login",
+            url: "https://eecs-4413-notamazon.mybluemix.net/rest/auth/login",
             headers: {
                 "Content-Type": "application/json",
             },

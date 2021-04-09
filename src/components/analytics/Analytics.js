@@ -40,7 +40,7 @@ const Analytics = () => {
 
     var config = {
       method: 'get',
-      url: 'http://localhost:8080/EECS-4413-notAmazon/rest/admin/topten',
+      url: 'https://eecs-4413-notamazon.mybluemix.net/rest/admin/topten',
       headers: {}
     };
 
@@ -57,7 +57,7 @@ const Analytics = () => {
 
     var config = {
       method: 'get',
-      url: 'http://localhost:8080/EECS-4413-notAmazon/rest/admin/userspentzip',
+      url: 'https://eecs-4413-notamazon.mybluemix.net/rest/admin/userspentzip',
       headers: {}
     };
 
@@ -105,7 +105,7 @@ const Analytics = () => {
 
     var config = {
       method: 'post',
-      url: 'http://localhost:8080/EECS-4413-notAmazon/rest/admin/bookssold',
+      url: 'https://eecs-4413-notamazon.mybluemix.net/rest/admin/bookssold',
       headers: {
         'Content-Type': 'application/json'
       },

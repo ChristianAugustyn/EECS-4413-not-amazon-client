@@ -80,7 +80,7 @@ const BookPage = ({ match, addToCart }) => {
 
         const config = {
             method: "post",
-            url: "http://localhost:8080/EECS-4413-notAmazon/rest/books/getbook",
+            url: "https://eecs-4413-notamazon.mybluemix.net/rest/books/getbook",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -95,7 +95,7 @@ const BookPage = ({ match, addToCart }) => {
             .then(() => {
                 var config = {
                     method: "get",
-                    url: `http://localhost:8080/EECS-4413-notAmazon/rest/reviews/reviewByBookId?bookId=${bid}`,
+                    url: `https://eecs-4413-notamazon.mybluemix.net/rest/reviews/reviewByBookId?bookId=${bid}`,
                     headers: {},
                 };
 
@@ -108,7 +108,7 @@ const BookPage = ({ match, addToCart }) => {
                     .then(() => {
                         var config = {
                             method: "get",
-                            url: `http://localhost:8080/EECS-4413-notAmazon/rest/reviews/averageRatingByBookId?bookId=${bid}`,
+                            url: `https://eecs-4413-notamazon.mybluemix.net/rest/reviews/averageRatingByBookId?bookId=${bid}`,
                             headers: {},
                         };
 
