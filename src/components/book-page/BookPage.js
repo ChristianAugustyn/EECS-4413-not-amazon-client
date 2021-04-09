@@ -140,13 +140,13 @@ const BookPage = ({ match, addToCart }) => {
                 {!isLoading && (
                     <>
                         <Row className={bps.container}>
-                            <Col>
+                            <Col sm={12} md={6} lg={6}>
                                 <Image style={{width: '80%'}}
-                                    src={images[book.title]}
+                                    src={book.cover}
                                     rounded
                                 />
                             </Col>
-                            <Col>
+                            <Col sm={12} md={6} lg={6}>
                                 <h3>{book.title}</h3>
                                 <p>
                                     Price:{" "}
@@ -183,14 +183,14 @@ const BookPage = ({ match, addToCart }) => {
                             </Col>
                         </Row>
                         <Row>
-                            <Col lg={12}>
+                            <Col sm={12}>
                                 <h2 className={bps.review_header}>Reviews</h2>
                             </Col>
-                            <Col>
+                            <Col sm={12} md={6} lg={6}>
                                 <Row>
                                     <Col>
                                         <div style={{ textAlign: "center" }}>
-                                            <h3>{avg}</h3>
+                                            <h3>{avg <= 0 ? 0 : avg}</h3>
                                             <p>Average rating based on:</p>
                                             <p>
                                                 {reviews.length}{" "}
@@ -265,14 +265,13 @@ const BookPage = ({ match, addToCart }) => {
                                     </Col>
                                 </Row>
                             </Col>
-                            <Col>
+                            <Col sm={12} md={6} lg={6}>
                                 {!isLoading &&
                                     reviews.map((review) => (
                                         <ReviewCard review={review} />
                                     ))}
                             </Col>
                         </Row>
-                        )
                     </>
                 )}
             </Container>

@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { connect } from 'react-redux'
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { connect } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { Navbar, Nav, NavDropdown, Badge } from "react-bootstrap";
 import SearchBar from "../searchbar/SearchBar";
-import { login, logout } from '../../state/actions'
+import { login, logout } from "../../state/actions";
 import axios from "axios";
 
-const Layout = ({ children, user, logout }) => {
+const Layout = ({ children, user, logout, cart }) => {
+    const location = useLocation();
+
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -23,14 +26,17 @@ const Layout = ({ children, user, logout }) => {
             .catch((error) => {
                 console.log(error);
             });
-    }, []);
-
-    console.log(!!user.token)
+    }, [cart]);
 
     return (
         <>
             <Navbar bg="light" expand="lg">
-                <Navbar.Brand href="/">notAmazon</Navbar.Brand>
+                <Navbar.Brand
+                    href="/"
+                    style={{ fontFamily: "'Pacifico', cursive" }}
+                >
+                    notAmazon
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
@@ -44,17 +50,34 @@ const Layout = ({ children, user, logout }) => {
                                 </NavDropdown.Item>
                             ))}
                         </NavDropdown>
-                        <Nav.Link href="/cart">Cart</Nav.Link>
+                        <Nav.Link href="/cart">
+                            Cart{" "}
+                            {cart.length > 0 ? (
+                                <Badge variant="primary">{cart.length}</Badge>
+                            ) : null}
+                        </Nav.Link>
                     </Nav>
                     <Nav className="ml-auto">
-                        {
-                            !!user.token ? (<Nav.Link onClick={() => logout()}>Logout</Nav.Link>) :  (<Nav.Link href='/login'>Login</Nav.Link>)
-                        }
+                        {location.pathname !== "/cart" ? (
+                            !!user.token ? (
+                                <Nav.Link onClick={() => logout()}>
+                                    Logout
+                                </Nav.Link>
+                            ) : (
+                                <Nav.Link href="/login">Login</Nav.Link>
+                            )
+                        ) : null}
                         <SearchBar />
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-            {children}
+            <div className="content">{children}</div>
+            <footer className="footer">
+                <p> Made with ❤️ by Ajeet, Christian, James and Samuel</p>
+                <p className="copyright">
+                    Copyright ⓒ {new Date().getFullYear()} notAmazon
+                </p>
+            </footer>
         </>
     );
 };
@@ -63,13 +86,14 @@ const mapStateToProps = (state) => {
     //takes the values from the cart
     return {
         user: state.user,
+        cart: state.cart,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         login: (token) => dispatch(login(token)),
-        logout: () => dispatch(logout())
+        logout: () => dispatch(logout()),
     };
 };
 

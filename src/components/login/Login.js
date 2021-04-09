@@ -7,7 +7,8 @@ import axios from "axios";
 import ls from "./Login.module.css";
 import { isEmpty } from "lodash-es";
 
-const Login = ({login}) => {
+const Login = ({ login, location }) => {
+
     const history = useHistory();
 
     const [state, setState] = useState({
@@ -22,6 +23,19 @@ const Login = ({login}) => {
             [id]: value,
         });
     };
+
+    const registerRedirect = () => {
+        console.log(!!location.state)
+        if (!!location.state && !!location.state.redirect) {
+            //if there exists a KV pair called redirect inside state then use it as the path
+            history.push({
+                pathname: "/register",
+                state: { redirect: location.state.redirect },
+            });
+        } else {
+            history.push("/register");
+        }
+    }
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -47,17 +61,26 @@ const Login = ({login}) => {
             },
             data: JSON.stringify({
                 username: state.email,
-                password: state.password
+                password: state.password,
             }),
         };
 
         axios(config)
             .then((response) => {
-                login(response.data.token)
-                history.push('/')
+                login(response.data.token);
+                if (!!location.state && !!location.state.redirect) {
+                    //if there exists a KV pair called redirect inside state then use it as the path
+                    console.log(location.state.redirect)
+                    history.push(location.state.redirect);
+                } else {
+                    history.push("/");
+                }
             })
             .catch((error) => {
-                alert("Oops, looks like your username or password was incorrect, please try again")
+                console.log(error)
+                alert(
+                    "Oops, looks like your username or password was incorrect, please try again"
+                );
             });
     };
 
@@ -95,7 +118,7 @@ const Login = ({login}) => {
                 </Form.Group>
                 <div
                     style={{ color: "blue", cursor: "pointer" }}
-                    onClick={() => history.push("/register")}
+                    onClick={() => registerRedirect()}
                 >
                     New Customer? Register Here
                 </div>
@@ -117,7 +140,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        login: (token) => dispatch(login(token))
+        login: (token) => dispatch(login(token)),
     };
 };
 

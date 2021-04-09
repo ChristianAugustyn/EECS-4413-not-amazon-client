@@ -48,4 +48,10 @@ const logout = () => {
     type: 'LOGOUT'
   }
 }
-export { increment, decrement, addToCart, quantityAdd, quantitySub, login, logout };
+
+const clearCart = () => {
+  return {
+    type: 'CLEAR_CART'
+  }
+}
+export { increment, decrement, addToCart, quantityAdd, quantitySub, login, logout, clearCart };
