@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Form, Row, Col, Button, Card, Table } from "react-bootstrap";
+import { Form, Row, Col, Button, Table, Alert, Spinner } from "react-bootstrap";
 import _, { first, isEmpty } from "lodash";
 import { connect } from "react-redux";
+import { useHistory } from 'react-router-dom'
 import {
     increment,
     decrement,
@@ -39,6 +40,8 @@ const initForm = {
 };
 
 const PaymentForm = ({ cart, total, user }) => {
+    const history = useHistory()
+
     const currency = new Intl.NumberFormat("en-US", {
         //number formatter for the currency
         style: "currency",
@@ -46,6 +49,8 @@ const PaymentForm = ({ cart, total, user }) => {
     });
     //state that is used to is the client has selected in the shipping and billing address is the same
     const [checked, setChecked] = useState(false);
+    //set state for the display payment status after order is sent
+    const [orderApproved, setOrderApproved] = useState(null);
     //form state
     const [form, setForm] = useState(initForm);
 
@@ -93,7 +98,8 @@ const PaymentForm = ({ cart, total, user }) => {
         let issue = {};
         //itterates over the form state and check if any of the fields are empty
         Object.entries(form).forEach((first_level) => {
-            if (["shipping", "billing", "payment"].includes(first_level[0])) { //bypassess non form items
+            if (["shipping", "billing", "payment"].includes(first_level[0])) {
+                //bypassess non form items
                 Object.entries(first_level[1]).forEach((second_level) => {
                     if (isEmpty(second_level[1])) {
                         flag = true;
@@ -113,22 +119,28 @@ const PaymentForm = ({ cart, total, user }) => {
             );
         }
         //TODO: ADD AXIOS CALL FOR PAYMENT
-        const mappedForm = mapToInfo(form, user.token, cart)
-        console.log(mappedForm)
+        const mappedForm = mapToInfo(form, user.token, cart);
+        console.log(mappedForm);
         axios({
             method: "post",
-            url: "http://localhost:8080/EECS-4413-notAmazon/rest/order/checkout",
+            url:
+                "http://localhost:8080/EECS-4413-notAmazon/rest/order/checkout",
             headers: {
                 Authorization: `Bearer ${user.token}`,
                 "Content-Type": "application/json",
             },
             data: JSON.stringify(mappedForm),
-        }).then(res => {
-            console.log(res) //SUCCESS
-        }).catch(err => {
-            console.log(err) //PAYMENT DIDNT WORK
         })
-        
+            .then((res) => {
+                console.log(res); //SUCCESS
+                setOrderApproved(true)
+                setTimeout(() => history.replace('/'), 3000)
+            })
+            .catch((err) => {
+                console.log(err); //PAYMENT DIDNT WORK
+                setOrderApproved(false)
+                setTimeout(() => history.replace('/'), 3000)
+            });
     };
     //if the check mark is checked, the that address from the billing gets trasnfered over to the shipping
     const handleCheck = () => {
@@ -149,6 +161,88 @@ const PaymentForm = ({ cart, total, user }) => {
 
     return (
         <div className={ps.payment_container}>
+            <div
+                style={
+                    orderApproved !== null
+                        ? {
+                              display: "grid",
+
+                              position: "fixed",
+                              left: "0",
+                              right: "0",
+                              top: "0",
+                              bottom: "0",
+                              background: "rgba(0, 0, 0, 0.5)",
+                              zIndex: "9",
+                          }
+                        : { display: "none" }
+                }
+            >
+                <Alert
+                    show={orderApproved == true}
+                    variant="success"
+                    style={{
+                        position: "absolute",
+                        zIndex: "10",
+                        justifySelf: "center",
+                        alignSelf: "center",
+                    }}
+                >
+                    <Alert.Heading>
+                        Order Successfully Completed!{" "}
+                        <Spinner
+                            animation="border"
+                            variant="success"
+                            style={{
+                                display: "inline-block",
+                                margin: "0 20px",
+                            }}
+                        />
+                    </Alert.Heading>
+                    <p>
+                        Looks like your order went through successfully you will
+                        recieve details about your order over email, we will
+                        begin processing it soon. Thank you for ordering from
+                        notAmazon
+                    </p>
+                    <hr />
+                    <p className="mb-0">your will be redirect shortly</p>
+                </Alert>
+                <Alert
+                    show={orderApproved == false}
+                    variant="danger"
+                    style={{
+                        position: "absolute",
+                        zIndex: "10",
+                        height: "200px",
+                        justifySelf: "center",
+                        alignSelf: "center",
+                    }}
+                >
+                    <Alert.Heading>
+                        Credit Card Authorization Failed
+                        <Spinner
+                            animation="border"
+                            variant="danger"
+                            style={{
+                                display: "inline-block",
+                                margin: "0 20px",
+                            }}
+                        />
+                    </Alert.Heading>
+                    <p>
+                        Oops, looks like something went went wrong when
+                        authorizing your credit card, try again a couple
+                        minutes.
+                    </p>
+                    <p>
+                        make sure to look over your credit card credentials to
+                        validate they are correct before pressing order!
+                    </p>
+                    <hr />
+                    <p className="mb-0">your will be redirect shortly</p>
+                </Alert>
+            </div>
             <Row>
                 <Col>
                     <h3>Cart</h3>
